@@ -1,4 +1,4 @@
-codeunit 50101 "Drug Posting Codeunit"
+codeunit 50101 "Drug Posting"
 {
     /// <summary>
     /// Post.
@@ -63,12 +63,11 @@ codeunit 50101 "Drug Posting Codeunit"
         BuildStoreRequisitionTempLedgers.Init();
         BuildStoreRequisitionTempLedgers."Req No." := StoreRequisitionHeader."No.";
         BuildStoreRequisitionTempLedgers."Date Created" := StoreRequisitionHeader."Requested Date";
-        BuildStoreRequisitionTempLedgers."No." := StoreRequisitionHeader."Item No.";
+        BuildStoreRequisitionTempLedgers."Drug No." := StoreRequisitionHeader."Item No.";
         BuildStoreRequisitionTempLedgers."Drug Name" := StoreRequisitionHeader."Item Description";
         BuildStoreRequisitionTempLedgers."Unit of Measure" := StoreRequisitionHeader."Unit of Measure";
         BuildStoreRequisitionTempLedgers."Requested By" := StoreRequisitionHeader."Requested By";
         BuildStoreRequisitionTempLedgers."Requsition Type" := StoreRequisitionHeader."Requisition Type";
-        BuildStoreRequisitionTempLedgers.Status := StoreRequisitionHeader.Status;
         BuildStoreRequisitionTempLedgers.Type := StoreRequisitionHeader."Item Type";
         BuildStoreRequisitionTempLedgers.Quantity := -Abs(StoreRequisitionHeader.Quantity);
         BuildStoreRequisitionTempLedgers.Insert();

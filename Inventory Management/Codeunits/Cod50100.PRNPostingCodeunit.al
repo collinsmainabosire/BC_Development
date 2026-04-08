@@ -1,4 +1,4 @@
-codeunit 50100 "PRN Posting Codeunit"
+codeunit 50100 "PRN Posting"
 {
     procedure Post(var PurchaseRequisitionHeader: Record "Purchase Requisition")
     var
@@ -9,7 +9,7 @@ codeunit 50100 "PRN Posting Codeunit"
         LockPRN(PurchaseRequisitionHeader);
         ValidatePRNState(PurchaseRequisitionHeader);
         ProcessPosting(PurchaseRequisitionHeader, PRNTempLedger);
-        //FinalizePsoting();
+        FinalizePosting(PurchaseRequisitionHeader);
         OnAfterPost();
     end;
 
@@ -54,23 +54,22 @@ codeunit 50100 "PRN Posting Codeunit"
 
 
     //BUilding Temporary purchase requsition ledgers
-    local procedure BuildPRNTempLedgers(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var PRNTempLedger: Record "Drug Ledger Entry" temporary)
+    local procedure BuildPRNTempLedgers(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary)
 
     begin
-        OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, PRNTempLedger);
-        PRNTempLedger.Init();
-        PRNTempLedger."Req No." := PurchaseRequisitionHeader."No.";
-        PRNTempLedger."Date Created" := PurchaseRequisitionHeader."Requested Date";
-        PRNTempLedger."No." := PurchaseRequisitionHeader."Item No.";
-        PRNTempLedger."Drug Name" := PurchaseRequisitionHeader."Item Description";
-        PRNTempLedger."Unit of Measure" := PurchaseRequisitionHeader."Unit of Measure";
-        PRNTempLedger."Requested by" := PurchaseRequisitionHeader."Requested by";
-        PRNTempLedger.Status := PurchaseRequisitionHeader.Status;
-        PRNTempLedger.Type := PurchaseRequisitionHeader."Item Type";
-        PRNTempLedger.Quantity := PurchaseRequisitionHeader.Quantity;
-        PRNTempLedger."Requsition Type" := PurchaseRequisitionHeader."Requisition Type";
-        PRNTempLedger.Insert();
-        OnAfterBuildTempPRNLLedgers(PRNTempLedger);
+        OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger);
+        TempDrugLedger.Init();
+        TempDrugLedger."Req No." := PurchaseRequisitionHeader."No.";
+        TempDrugLedger."Date Created" := PurchaseRequisitionHeader."Requested Date";
+        TempDrugLedger."Drug No." := PurchaseRequisitionHeader."Item No.";
+        TempDrugLedger."Drug Name" := PurchaseRequisitionHeader."Item Description";
+        TempDrugLedger."Unit of Measure" := PurchaseRequisitionHeader."Unit of Measure";
+        TempDrugLedger."Requested by" := PurchaseRequisitionHeader."Requested by";
+        TempDrugLedger.Type := PurchaseRequisitionHeader."Item Type";
+        TempDrugLedger.Quantity := PurchaseRequisitionHeader.Quantity;
+        TempDrugLedger."Requsition Type" := PurchaseRequisitionHeader."Requisition Type";
+        TempDrugLedger.Insert();
+        OnAfterBuildTempPRNLLedgers(TempDrugLedger);
     end;
 
     //Validating PRN Temp Ledgers
@@ -96,6 +95,12 @@ codeunit 50100 "PRN Posting Codeunit"
                 PurchaseRequisitionLedger."Entry No." := 0;
                 PurchaseRequisitionLedger.Insert(true);
             until PRNTempLedger.Next() = 0;
+    end;
+
+    local procedure FinalizePosting(var PurchaseRequisitionHeader: Record "Purchase Requisition")
+    begin
+        PurchaseRequisitionHeader.Status := PurchaseRequisitionHeader.Status::Posted;
+        PurchaseRequisitionHeader.Modify(true);
     end;
     //Events
     [IntegrationEvent(false, false)]

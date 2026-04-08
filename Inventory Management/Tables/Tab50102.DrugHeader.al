@@ -26,7 +26,7 @@ table 50102 "Drug Header"
             Editable = false;
             TableRelation = "Drug Ledger Entry";
             FieldClass = FlowField;
-            CalcFormula = sum("Drug Ledger Entry".Quantity where("No." = field("No.")));
+            CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("No.")));
         }
         field(5; "Unit of Measure"; code[20])
         {

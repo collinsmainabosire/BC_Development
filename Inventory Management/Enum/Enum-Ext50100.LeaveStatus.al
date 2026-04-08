@@ -1,4 +1,4 @@
-enumextension 50100 "Leave Status" extends "Purchase Document Status"
+enumextension 50100 "Document Status" extends "Purchase Document Status"
 {
     value(50; Posted)
     {

@@ -11,7 +11,7 @@ table 50103 "Drug Ledger Entry"
             Caption = 'Entry No.';
             AutoIncrement = true;
         }
-        field(2; "No."; Code[20])
+        field(2; "Drug No."; Code[20])
         {
             Caption = 'Drug No.';
         }

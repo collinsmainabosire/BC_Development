@@ -81,7 +81,7 @@ page 50106 "Purchase Requisition Card"
 
                 trigger OnAction()
                 var
-                    PurchasePosting: Codeunit "PRN Posting Codeunit";
+                    PurchasePosting: Codeunit "PRN Posting";
                 begin
                     if Confirm('Do you want to post this leave application?', true) then begin
                         PurchasePosting.Post(Rec);

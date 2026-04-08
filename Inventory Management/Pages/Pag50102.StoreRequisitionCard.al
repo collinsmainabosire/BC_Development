@@ -81,7 +81,7 @@ page 50102 "Store Requisition Card"
 
                 trigger OnAction()
                 var
-                    LeavePosting: Codeunit "Drug Posting Codeunit";
+                    LeavePosting: Codeunit "Drug Posting";
                 begin
                     if Confirm('Do you want to post this leave application?', true) then begin
                         LeavePosting.Post(Rec);

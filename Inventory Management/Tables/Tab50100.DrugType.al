@@ -9,9 +9,9 @@ table 50100 "Drug Type"
         {
             Caption = 'Code';
         }
-        field(2; "Description"; Text[50])
+        field(2; Description; Text[50])
         {
-            Caption = 'Drug Type';
+            Caption = 'Description';
         }
         
     }

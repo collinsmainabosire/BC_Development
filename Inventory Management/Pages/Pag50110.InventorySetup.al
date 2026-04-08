@@ -1,9 +1,9 @@
-page 50110 "Inventory Setups"
+page 50110 "Store Setup"
 {
     ApplicationArea = All;
     Caption = 'Inventory Setup';
     PageType = List;
-    SourceTable = "Inventory Setups";
+    SourceTable = "Store Setup";
 
     layout
     {

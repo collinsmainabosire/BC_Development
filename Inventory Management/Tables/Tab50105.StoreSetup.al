@@ -1,4 +1,4 @@
-table 50105 "Inventory Setups"
+table 50105 "Store Setup"
 {
     Caption = 'Inventory Setup';
     DataClassification = ToBeClassified;

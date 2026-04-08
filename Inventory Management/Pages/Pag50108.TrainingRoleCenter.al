@@ -67,7 +67,7 @@ page 50108 "Training Role Center"
                     Caption = 'Inventory Setup';
                     ApplicationArea = All;
                     Image = List;
-                    RunObject = page "Inventory Setups";
+                    RunObject = page "Store Setup";
                 }
             }
         }
