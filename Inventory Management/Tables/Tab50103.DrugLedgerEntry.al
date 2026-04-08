@@ -11,7 +11,7 @@ table 50103 "Drug Ledger Entry"
             Caption = 'Entry No.';
             AutoIncrement = true;
         }
-        field(2; "Drug No."; Code[20])
+        field(2; "No."; Code[20])
         {
             Caption = 'Drug No.';
         }
@@ -40,7 +40,7 @@ table 50103 "Drug Ledger Entry"
             Caption = 'Type';
             TableRelation = "Drug Type";
         }
-        field(8; "created by"; Text[100])
+        field(8; "Created By"; Text[100])
         {
             Caption = 'Created By';
             Editable = false;

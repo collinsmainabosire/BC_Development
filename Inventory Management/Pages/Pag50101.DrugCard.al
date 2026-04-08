@@ -14,7 +14,7 @@ page 50101 "Drug Card"
             {
                 Caption = 'General';
 
-                field("Drug No."; Rec."Drug No.")
+                field("Drug No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the Drug No. field.', Comment = '%';
                 }

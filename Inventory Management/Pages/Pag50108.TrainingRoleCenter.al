@@ -16,8 +16,8 @@ page 50108 "Training Role Center"
     {
         area(Sections)
         {
-                       
-            group(Prourement)
+
+            group(Procurement)
             {
                 action(Purchase)
                 {
@@ -60,8 +60,18 @@ page 50108 "Training Role Center"
                     RunObject = page "Drug Ledger Entry List";
                 }
             }
-                       
+            group(Setups)
+            {
+                action("Inventory Setup")
+                {
+                    Caption = 'Inventory Setup';
+                    ApplicationArea = All;
+                    Image = List;
+                    RunObject = page "Inventory Setups";
+                }
+            }
         }
+
 
     }
 

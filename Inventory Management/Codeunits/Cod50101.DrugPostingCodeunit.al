@@ -22,7 +22,7 @@ codeunit 50101 "Drug Posting Codeunit"
     //Validate the data integrity of the Store requisition
     local procedure ValidateStoreRequisition(var StoreRequisitionHeader: Record "Store Requisition Header")
     begin
-        StoreRequisitionHeader.TestField("Req No.");
+        StoreRequisitionHeader.TestField("No.");
         StoreRequisitionHeader.TestField("Requested Date");
         StoreRequisitionHeader.TestField("Item No.");
         StoreRequisitionHeader.TestField("Item Description");
@@ -43,7 +43,7 @@ codeunit 50101 "Drug Posting Codeunit"
     Local procedure LockStoreRequisition(var StoreRequisitionHeader: Record "Store Requisition Header")
     begin
         StoreRequisitionHeader.LockTable();
-        StoreRequisitionHeader.SetRange(StoreRequisitionHeader."Req No.");
+        StoreRequisitionHeader.SetRange(StoreRequisitionHeader."No.");
     end;
 
     //Validation document state before posting
@@ -51,7 +51,7 @@ codeunit 50101 "Drug Posting Codeunit"
     begin
         StoreRequisitionHeader.TestField(Status, StoreRequisitionHeader.Status::Released);
         if StoreRequisitionHeader.Status = StoreRequisitionHeader.Status::Posted then
-            Error('%1 requisition has been posted, thank you', StoreRequisitionHeader."Req No.");
+            Error('%1 requisition has been posted, thank you', StoreRequisitionHeader."No.");
     end;
 
     //Building temporary ledger entries for store requsition
@@ -61,9 +61,9 @@ codeunit 50101 "Drug Posting Codeunit"
     begin
         OnBeforeBuildTempLeaveLedger(StoreRequisitionHeader, BuildStoreRequisitionTempLedgers);
         BuildStoreRequisitionTempLedgers.Init();
-        BuildStoreRequisitionTempLedgers."Req No." := StoreRequisitionHeader."Req No.";
+        BuildStoreRequisitionTempLedgers."Req No." := StoreRequisitionHeader."No.";
         BuildStoreRequisitionTempLedgers."Date Created" := StoreRequisitionHeader."Requested Date";
-        BuildStoreRequisitionTempLedgers."Drug No." := StoreRequisitionHeader."Item No.";
+        BuildStoreRequisitionTempLedgers."No." := StoreRequisitionHeader."Item No.";
         BuildStoreRequisitionTempLedgers."Drug Name" := StoreRequisitionHeader."Item Description";
         BuildStoreRequisitionTempLedgers."Unit of Measure" := StoreRequisitionHeader."Unit of Measure";
         BuildStoreRequisitionTempLedgers."Requested By" := StoreRequisitionHeader."Requested By";

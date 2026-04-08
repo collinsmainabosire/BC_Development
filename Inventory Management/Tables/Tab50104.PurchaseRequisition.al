@@ -54,7 +54,7 @@ table 50104 "Purchase Requisition"
             Editable = false;
             TableRelation = "Drug Ledger Entry";
             FieldClass = FlowField;
-            CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("Item No.")));
+            CalcFormula = sum("Drug Ledger Entry".Quantity where("No." = field("Item No.")));
         }
         field(10; Quantity; Integer)
         {

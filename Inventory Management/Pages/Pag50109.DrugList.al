@@ -4,14 +4,15 @@ page 50109 "Drug List"
     Caption = 'Drug List';
     PageType = List;
     SourceTable = "Drug Header";
-    
+    CardPageId = "Drug Card";
+
     layout
     {
         area(Content)
         {
             repeater(General)
             {
-                field("Drug No."; Rec."Drug No.")
+                field("Drug No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the Drug No. field.', Comment = '%';
                 }

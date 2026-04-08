@@ -7,9 +7,9 @@ table 50102 "Drug Header"
 
     fields
     {
-        field(1; "Drug No."; Code[20])
+        field(1; "No."; Code[20])
         {
-            Caption = 'Drug No.';
+            Caption = 'No.';
         }
         field(2; "Drug Name"; Text[100])
         {
@@ -26,7 +26,7 @@ table 50102 "Drug Header"
             Editable = false;
             TableRelation = "Drug Ledger Entry";
             FieldClass = FlowField;
-            CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("Drug No.")));
+            CalcFormula = sum("Drug Ledger Entry".Quantity where("No." = field("No.")));
         }
         field(5; "Unit of Measure"; code[20])
         {
@@ -38,7 +38,7 @@ table 50102 "Drug Header"
             Caption = 'Type';
             TableRelation = "Drug Type";
         }
-        field(7; "created by"; Text[100])
+        field(7; "Created By"; Text[100])
         {
             Caption = 'Created By';
             Editable = false;
@@ -56,7 +56,7 @@ table 50102 "Drug Header"
     }
     keys
     {
-        key(PK; "Drug No.")
+        key(PK; "No.")
         {
             Clustered = true;
         }
@@ -71,7 +71,7 @@ table 50102 "Drug Header"
     trigger OnInsert()
     begin
         "Date Created" := WorkDate;
-        "created by" := UserId;
+        "Created By" := UserId;
 
     end;
 }

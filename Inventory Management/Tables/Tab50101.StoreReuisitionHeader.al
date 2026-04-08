@@ -5,9 +5,9 @@ table 50101 "Store Requisition Header"
 
     fields
     {
-        field(1; "Req No."; Code[20])
+        field(1; "No."; Code[20])
         {
-            Caption = 'Req No.';
+            Caption = 'No.';
         }
         field(2; "Requested Date"; Date)
         {
@@ -55,7 +55,7 @@ table 50101 "Store Requisition Header"
             Caption = 'Item Balance';
             TableRelation = "Drug Ledger Entry";
             FieldClass = FlowField;
-            CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("Item No.")));
+            CalcFormula = sum("Drug Ledger Entry".Quantity where("No." = field("Item No.")));
         }
         field(10; Quantity; Integer)
         {
@@ -77,7 +77,7 @@ table 50101 "Store Requisition Header"
     }
     keys
     {
-        key(PK; "Req No.")
+        key(PK; "No.")
         {
             Clustered = true;
         }

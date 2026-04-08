@@ -14,7 +14,7 @@ page 50102 "Store Requisition Card"
             {
                 Caption = 'General';
 
-                field("Req No."; Rec."Req No.")
+                field("Req No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the Req No. field.', Comment = '%';
                 }
@@ -87,7 +87,7 @@ page 50102 "Store Requisition Card"
                         LeavePosting.Post(Rec);
 
                         //Only runs if posting succeeded
-                        Message('Requisition  %1 %2 posted successfully.', Rec."Req No.", Rec."Item Description");
+                        Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Item Description");
                         CurrPage.Update();
                     end;
                 end;

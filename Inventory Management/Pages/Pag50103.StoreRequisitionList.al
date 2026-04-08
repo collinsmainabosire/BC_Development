@@ -16,7 +16,7 @@ page 50103 "Store Requisition List"
         {
             repeater(General)
             {
-                field("Req No."; Rec."Req No.")
+                field("Req No."; Rec."No.")
                 {
                     ToolTip = 'Specifies the value of the Req No. field.', Comment = '%';
                 }

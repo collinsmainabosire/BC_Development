@@ -61,7 +61,7 @@ codeunit 50100 "PRN Posting Codeunit"
         PRNTempLedger.Init();
         PRNTempLedger."Req No." := PurchaseRequisitionHeader."No.";
         PRNTempLedger."Date Created" := PurchaseRequisitionHeader."Requested Date";
-        PRNTempLedger."Drug No." := PurchaseRequisitionHeader."Item No.";
+        PRNTempLedger."No." := PurchaseRequisitionHeader."Item No.";
         PRNTempLedger."Drug Name" := PurchaseRequisitionHeader."Item Description";
         PRNTempLedger."Unit of Measure" := PurchaseRequisitionHeader."Unit of Measure";
         PRNTempLedger."Requested by" := PurchaseRequisitionHeader."Requested by";
