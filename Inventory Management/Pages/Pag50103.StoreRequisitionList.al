@@ -1,3 +1,6 @@
+/// <summary>
+/// Page Store Requisition List (ID 50103).
+/// </summary>
 page 50103 "Store Requisition List"
 {
     ApplicationArea = All;
