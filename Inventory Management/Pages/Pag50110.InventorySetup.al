@@ -11,17 +11,17 @@ page 50110 "Store Setup"
         {
             repeater(General)
             {
-                field("Drug Nos"; Rec."No.")
+                field("Drug Nos"; Rec."Drug Nos")
                 {
                     ApplicationArea = all;
                     ToolTip = 'Drug numbers';
                 }
-                field("Purchase No."; Rec."No.")
+                field("Purchase No."; Rec."Purchase No.")
                 {
                     ApplicationArea = all;
                     ToolTip = 'Purchase numbers';
                 }
-                field("SRN No."; Rec."No.")
+                field("SRN No."; Rec."SRN No.")
                 {
                     ApplicationArea = all;
                     ToolTip = 'SRN numbers';

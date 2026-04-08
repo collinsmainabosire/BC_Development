@@ -83,7 +83,16 @@ table 50101 "Store Requisition Header"
         }
     }
     trigger OnInsert()
+    var
+        InventorySetup: Record "Store Setup";
+        NoSeriesManagement: Codeunit "No. Series";
     begin
+        if "No." = '' then begin
+            InventorySetup.Get();
+            InventorySetup.TestField(InventorySetup."SRN No.");
+            "No." := NoSeriesManagement.GetNextNo(InventorySetup."SRN No.", WorkDate, true);
+
+        end;
         "Requested By" := UserId;
         "Requested Date" := WorkDate;
         "Requisition Type" := "Requisition Type"::Store;

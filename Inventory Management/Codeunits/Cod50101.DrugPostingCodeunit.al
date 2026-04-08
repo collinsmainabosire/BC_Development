@@ -77,10 +77,13 @@ codeunit 50101 "Drug Posting"
     //Validate Store Requisition Temporary Ledger
     local procedure ValidateStoreRequisitionTempLedgers(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
     begin
-        if BuildStoreRequisitionTempLedgers.FindSet() then
-            repeat
+        if not BuildStoreRequisitionTempLedgers.FindSet() then
+            Error('Nothing to post.');
 
-            until BuildStoreRequisitionTempLedgers.Next() = 0;
+        repeat
+            if BuildStoreRequisitionTempLedgers.Quantity = 0 then
+                Error('Ledger quantity cannot be zero.');
+        until BuildStoreRequisitionTempLedgers.Next() = 0;
     end;
 
     //Process posting 

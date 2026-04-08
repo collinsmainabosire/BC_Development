@@ -69,7 +69,15 @@ table 50102 "Drug Header"
     end;
 
     trigger OnInsert()
+    var
+        NoSeriesManagement: Codeunit "No. Series";
+        InventorySetup: Record "Store Setup";
     begin
+        if "No." = '' then begin
+            InventorySetup.Get();
+            InventorySetup.TestField("Drug Nos");
+            "No." := NoSeriesManagement.GetNextNo(InventorySetup."Drug Nos", WorkDate, true);
+        end;
         "Date Created" := WorkDate;
         "Created By" := UserId;
 
