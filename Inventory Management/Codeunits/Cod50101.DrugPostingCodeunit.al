@@ -13,11 +13,8 @@ codeunit 50101 "Drug Posting"
         LockHeader(Header);
         ValidateStatus(Header);
         CheckIfAlreadyPosted(Header);
-
         ProcessPosting(TempLedger, Header);
-
         Finalize(Header);
-
         OnAfterPost(Header);
     end;
 
@@ -154,7 +151,7 @@ codeunit 50101 "Drug Posting"
 
     end;
 
-    //Event subsucriber for tempoerary ldegers builiding
+    //Event subsucriber for tempoerary ledgers builiding
     [IntegrationEvent(false, false)]
     local procedure OnBeforeBuildTempLeaveLedger(var StoreRequisitionHeader: Record "Store Requisition Header";
     var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
@@ -167,6 +164,4 @@ codeunit 50101 "Drug Posting"
     begin
 
     end;
-
-
 }
