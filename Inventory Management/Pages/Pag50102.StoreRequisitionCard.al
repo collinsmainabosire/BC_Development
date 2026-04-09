@@ -23,37 +23,9 @@ page 50102 "Store Requisition Card"
                     ToolTip = 'Specifies the value of the Requested Date field.', Comment = '%';
                     Editable = false;
                 }
-                field("Item No."; Rec."Item No.")
-                {
-                    ToolTip = 'Specifies the value of the Item No. field.', Comment = '%';
-                }
-                field("Item Description"; Rec."Item Description")
-                {
-                    ToolTip = 'Specifies the value of the Item Description field.', Comment = '%';
-                    Editable = false;
-                }
-                field("Unit of Measure"; Rec."Unit of Measure")
-                {
-                    ToolTip = 'Specifies the value of the Unit of Measure field.', Comment = '%';
-                    Editable = false;
-                }
-                field("Item Type"; Rec."Item Type")
-                {
-                    ToolTip = 'Specifies the value of the Item Type field.', Comment = '%';
-                    Editable = false;
-                }
                 field("Requisition Type"; Rec."Requisition Type")
                 {
                     ToolTip = 'Specifies the value of the Requsition Type field.', Comment = '%';
-                    Editable = false;
-                }
-                field(Quantity; Rec.Quantity)
-                {
-                    ToolTip = 'Specifies the value of the Quantity field.', Comment = '%';
-                }
-                field("Item Balance"; Rec."Item Balance")
-                {
-                    ToolTip = 'Specifies the value of the Item Balance field.', Comment = '%';
                     Editable = false;
                 }
                 field(Status; Rec.Status)
@@ -65,6 +37,10 @@ page 50102 "Store Requisition Card"
                     ToolTip = 'Specifies the value of the Requested By field.', Comment = '%';
                     Editable = false;
                 }
+            }
+            part(Lines; "Store Requisition Subpage")
+            {
+                SubPageLink = "Document No." = field("No.");
             }
         }
     }

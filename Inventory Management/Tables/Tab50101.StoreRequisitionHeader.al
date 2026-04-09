@@ -75,6 +75,14 @@ table 50101 "Store Requisition Header"
             Caption = 'Requisition Type';
             OptionMembers = ,Purchase,Store;
         }
+        field(12; "Batch No."; Code[50])
+        {
+            Caption = 'Batch No.';
+        }
+        field(13; "Expiry Date"; Date)
+        {
+            Caption = 'Expiry Date';
+        }
     }
     keys
     {

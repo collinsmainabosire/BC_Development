@@ -82,6 +82,8 @@ codeunit 50101 "Drug Posting"
         TempDrugLedger."Requested By" := StoreRequisitionHeader."Requested By";
         TempDrugLedger."Requsition Type" := StoreRequisitionHeader."Requisition Type";
         TempDrugLedger.Type := StoreRequisitionHeader."Item Type";
+        TempDrugLedger."Batch No." := StoreRequisitionHeader."Batch No.";
+        TempDrugLedger."Expiry Date" := StoreRequisitionHeader."Expiry Date";
         TempDrugLedger.Quantity := -Abs(StoreRequisitionHeader.Quantity);
         TempDrugLedger.Insert();
         OnAfterBuildTempLeaveLedger(TempDrugLedger);
