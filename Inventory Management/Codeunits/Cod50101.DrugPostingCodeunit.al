@@ -7,12 +7,10 @@ codeunit 50101 "Drug Posting"
         ValidateHeader(Header);
         LockHeader(Header);
         ValidateStatus(Header);
-
         BuildTempLines(Header, TempLedger);
         ValidateTempLines(TempLedger);
-
+        ProcessPosting(TempLedger, Header);
         InsertLedgerEntries(TempLedger);
-
         Finalize(Header);
     end;
 
@@ -25,14 +23,6 @@ codeunit 50101 "Drug Posting"
         StoreRequisitionHeader.TestField(Status);
     end;
 
-    procedure GetCurrentStock(ItemNo: Code[20]): Decimal
-    var
-        Ledger: Record "Drug Ledger Entry";
-    begin
-        Ledger.SetRange("Drug No.", ItemNo);
-        Ledger.CalcSums(Quantity);
-        exit(Ledger.Quantity);
-    end;
     //Lock the document to prevent two users from posting it
     /// <summary>
     /// LockStoreRequisition.
@@ -65,7 +55,7 @@ codeunit 50101 "Drug Posting"
                 TempDrugLedger.Init();
                 TempDrugLedger."Drug No." := Line."Item No.";
                 TempDrugLedger."Drug Name" := Line."Item Description";
-                TempDrugLedger.Quantity := Line.Quantity;
+                TempDrugLedger.Quantity := -Abs(Line.Quantity);
                 TempDrugLedger."Req No." := Line."Document No.";
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
@@ -103,7 +93,7 @@ codeunit 50101 "Drug Posting"
                 StoreRequisitionLedger.Init();
                 StoreRequisitionLedger.TransferFields(BuildStoreRequisitionTempLedgers, false);
                 StoreRequisitionLedger."Entry No." := 0;
-                StoreRequisitionLedger.Insert(true);
+                StoreRequisitionLedger.Insert(false);
             until BuildStoreRequisitionTempLedgers.Next() = 0;
 
     end;
