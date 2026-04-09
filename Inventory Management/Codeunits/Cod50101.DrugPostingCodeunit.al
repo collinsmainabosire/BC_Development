@@ -30,7 +30,12 @@ codeunit 50101 "Drug Posting"
     /// <param name="StoreRequisitionHeader">VAR Record "Store Requisition Header".</param>
     Local procedure LockHeader(var StoreRequisitionHeader: Record "Store Requisition Header")
     begin
+
         StoreRequisitionHeader.LockTable();
+        if not StoreRequisitionHeader.Get(StoreRequisitionHeader."No.") then
+            Error('Document not found');
+        if StoreRequisitionHeader.Status = StoreRequisitionHeader.Status::Posted then
+            Error('Document already posted');
         StoreRequisitionHeader.SetRange(StoreRequisitionHeader."No.");
     end;
 
