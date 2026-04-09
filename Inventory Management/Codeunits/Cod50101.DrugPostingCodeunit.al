@@ -86,7 +86,17 @@ codeunit 50101 "Drug Posting"
             Error('Document already posted.');
         BuildTempLines(Header, BuildStoreRequisitionTempLedgers);
         ValidateTempLines(BuildStoreRequisitionTempLedgers);
+        CheckIfPosted(Header);
         InsertLedgerEntries(BuildStoreRequisitionTempLedgers);
+    end;
+    //checking if the document is already posted
+    local procedure CheckIfPosted(var Header: Record "Store Requisition Header")
+    var
+        Ledger: Record "Drug Ledger Entry";
+    begin
+        Header.SetRange(header."No.", Ledger."Req No.");
+        if Ledger.FindFirst() then
+            Error('Entries already exist for document %1', Header."No.");
     end;
     //Inserting temporary ledger to the real ledgers
     local procedure InsertLedgerEntries(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
