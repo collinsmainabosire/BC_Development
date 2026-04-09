@@ -72,7 +72,7 @@ table 50103 "Drug Ledger Entry"
         field(14; "Requsition Type"; Option)
         {
             Caption = 'Requisition Type';
-            OptionMembers = ,Pruchase,Store;
+            OptionMembers = ,Purchase,Store;
         }
         field(15; "Batch No."; Code[50])
         {
@@ -83,6 +83,14 @@ table 50103 "Drug Ledger Entry"
         {
 
             Caption = 'Expiry Date';
+        }
+        field(17; "Document No."; Code[20])
+        {
+            Caption = 'Document No.';
+        }
+        field(18; "Line No."; Integer)
+        {
+            Caption = 'Line No';
         }
     }
     keys

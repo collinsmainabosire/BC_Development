@@ -63,7 +63,6 @@ codeunit 50101 "Drug Posting"
     //Building temporary ledger entries for store requsition
     local procedure BuildTempLedgerEntries(var Header: Record "Store Requisition Header";
     var TempDrugLedger: Record "Drug Ledger Entry" temporary)
-    var
         Line: Record "Store Requisition Line";
     begin
         OnBeforeBuildTempLeaveLedger(Header, TempDrugLedger);
@@ -77,6 +76,8 @@ codeunit 50101 "Drug Posting"
                 TempDrugLedger."Req No." := Line."Document No.";
                 TempDrugLedger."Requsition Type" := Header."Requisition Type";
                 TempDrugLedger.Status := Header.Status;
+                TempDrugLedger."Document No." := Line."Document No.";
+                TempDrugLedger."Line No." := Line."Line No.";
                 TempDrugLedger."Posting Date" := CurrentDateTime;
                 TempDrugLedger.Insert();
             until Line.Next() = 0;

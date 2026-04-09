@@ -92,7 +92,7 @@ table 50107 "Purchase Requisition Line"
     }
     trigger OnInsert()
     var
-        StoreLine: Record "Store Requisition Line";
+        StoreLine: Record "Purchase Requisition Line";
     begin
         if "Line No." = 0 then begin
             StoreLine.SetRange("Document No.", "Document No.");

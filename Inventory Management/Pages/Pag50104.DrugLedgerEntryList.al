@@ -18,6 +18,14 @@ page 50104 "Drug Ledger Entry List"
                 {
                     ToolTip = 'Specifies the value of the Entry No. field.', Comment = '%';
                 }
+                field("Line No."; Rec."Line No.")
+                {
+                    ToolTip = 'Specifies the value of the Line No. field.', Comment = '%';
+                }
+                field("Document No."; Rec."Document No.")
+                {
+                    ToolTip = 'Specifies the value of the Document No. field.', Comment = '%';
+                }
                 field("Drug No."; Rec."Drug No.")
                 {
                     ToolTip = 'Specifies the value of the Drug No. field.', Comment = '%';
