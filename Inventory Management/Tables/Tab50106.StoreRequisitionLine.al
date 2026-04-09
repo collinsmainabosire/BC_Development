@@ -20,12 +20,27 @@ table 50106 "Store Requisition Line"
             trigger OnValidate()
             var
                 Item: Record "Drug Header";
+                StoreLine: Record "Store Requisition Line";
             begin
                 if Item.Get("Item No.") then begin
                     "Item Description" := Item."Drug Name";
                     "Unit of Measure" := Item."Unit of Measure";
                     "Item Type" := Item.Type;
-                end
+                end;
+                //Prevent Item line duplicate
+                StoreLine.SetRange("Document No.", "Document No.");
+                StoreLine.SetRange("Item No.", "Item No.");
+                if StoreLine.FindFirst() then
+                    if StoreLine."Line No." <> "Line No." then
+                        Error('Item %1 already exists in this requisition.', "Item No.");
+
+                // Existing logic (populate fields)
+                if Rec."Item No." <> '' then begin
+                    if Item.Get("Item No.") then begin
+                        "Item Description" := Item."Drug Name";
+                        "Unit of Measure" := Item."Unit of Measure";
+                    end;
+                end;
             end;
         }
         field(4; "Item Description"; Text[100])

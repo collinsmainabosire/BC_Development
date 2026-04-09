@@ -63,7 +63,7 @@ page 50102 "Store Requisition Card"
                         LeavePosting.Post(Rec);
 
                         //Only runs if posting succeeded
-                        Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Item Description");
+                        Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");
                         CurrPage.Update();
                     end;
                 end;
