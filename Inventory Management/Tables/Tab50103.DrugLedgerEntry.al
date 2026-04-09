@@ -74,6 +74,16 @@ table 50103 "Drug Ledger Entry"
             Caption = 'Requisition Type';
             OptionMembers = ,Pruchase,Store;
         }
+        field(15; "Batch No."; Code[50])
+        {
+
+            Caption = 'Batch No.';
+        }
+        field(16; "Expiry Date"; Date)
+        {
+
+            Caption = 'Expiry Date';
+        }
     }
     keys
     {

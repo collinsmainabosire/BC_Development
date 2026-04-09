@@ -8,7 +8,12 @@ codeunit 50101 "Drug Posting"
     var
         IsHandled: Boolean;
         BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary;
+        AvailableStock: Integer;
+        DrugLedger: Record "Drug Ledger Entry";
     begin
+        AvailableStock := GetCurrentStock(DrugLedger."Drug No.");
+        if AvailableStock < StoreRequisitionHeader.Quantity then
+            Error('Insufficient stock for this drug.');
         IsHandled := false;
         OnBeforePost(StoreRequisitionHeader, IsHandled);
         ValidateStoreRequisition(StoreRequisitionHeader);
@@ -35,6 +40,14 @@ codeunit 50101 "Drug Posting"
             Error('Sorry your quanity %1 is either  zero or empty request valid items', StoreRequisitionHeader.Quantity);
     end;
 
+    procedure GetCurrentStock(ItemNo: Code[20]): Decimal
+    var
+        Ledger: Record "Drug Ledger Entry";
+    begin
+        Ledger.SetRange("Drug No.", ItemNo);
+        Ledger.CalcSums(Quantity);
+        exit(Ledger.Quantity);
+    end;
     //Lock the document to prevent two users from posting it
     /// <summary>
     /// LockStoreRequisition.
@@ -56,22 +69,22 @@ codeunit 50101 "Drug Posting"
 
     //Building temporary ledger entries for store requsition
     local procedure BuildStoreRequisitionTempLedgers(var StoreRequisitionHeader: Record "Store Requisition Header";
-    var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
+    var TempDrugLedger: Record "Drug Ledger Entry" temporary)
 
     begin
-        OnBeforeBuildTempLeaveLedger(StoreRequisitionHeader, BuildStoreRequisitionTempLedgers);
-        BuildStoreRequisitionTempLedgers.Init();
-        BuildStoreRequisitionTempLedgers."Req No." := StoreRequisitionHeader."No.";
-        BuildStoreRequisitionTempLedgers."Date Created" := StoreRequisitionHeader."Requested Date";
-        BuildStoreRequisitionTempLedgers."Drug No." := StoreRequisitionHeader."Item No.";
-        BuildStoreRequisitionTempLedgers."Drug Name" := StoreRequisitionHeader."Item Description";
-        BuildStoreRequisitionTempLedgers."Unit of Measure" := StoreRequisitionHeader."Unit of Measure";
-        BuildStoreRequisitionTempLedgers."Requested By" := StoreRequisitionHeader."Requested By";
-        BuildStoreRequisitionTempLedgers."Requsition Type" := StoreRequisitionHeader."Requisition Type";
-        BuildStoreRequisitionTempLedgers.Type := StoreRequisitionHeader."Item Type";
-        BuildStoreRequisitionTempLedgers.Quantity := -Abs(StoreRequisitionHeader.Quantity);
-        BuildStoreRequisitionTempLedgers.Insert();
-        OnAfterBuildTempLeaveLedger(BuildStoreRequisitionTempLedgers);
+        OnBeforeBuildTempLeaveLedger(StoreRequisitionHeader, TempDrugLedger);
+        TempDrugLedger.Init();
+        TempDrugLedger."Req No." := StoreRequisitionHeader."No.";
+        TempDrugLedger."Date Created" := StoreRequisitionHeader."Requested Date";
+        TempDrugLedger."Drug No." := StoreRequisitionHeader."Item No.";
+        TempDrugLedger."Drug Name" := StoreRequisitionHeader."Item Description";
+        TempDrugLedger."Unit of Measure" := StoreRequisitionHeader."Unit of Measure";
+        TempDrugLedger."Requested By" := StoreRequisitionHeader."Requested By";
+        TempDrugLedger."Requsition Type" := StoreRequisitionHeader."Requisition Type";
+        TempDrugLedger.Type := StoreRequisitionHeader."Item Type";
+        TempDrugLedger.Quantity := -Abs(StoreRequisitionHeader.Quantity);
+        TempDrugLedger.Insert();
+        OnAfterBuildTempLeaveLedger(TempDrugLedger);
     end;
 
     //Validate Store Requisition Temporary Ledger
@@ -113,9 +126,7 @@ codeunit 50101 "Drug Posting"
     var
         StoreRequisitionLedger: Record "Drug Ledger Entry";
     begin
-        StoreRequisitionHeader.Status := StoreRequisitionHeader.Status::Posted;
-        StoreRequisitionLedger.Status := StoreRequisitionLedger.Status::Posted;
-        StoreRequisitionHeader.Modify(true);
+
     end;
     //Events
     [IntegrationEvent(false, false)]

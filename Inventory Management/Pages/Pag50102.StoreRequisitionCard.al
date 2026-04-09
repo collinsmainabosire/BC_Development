@@ -83,7 +83,7 @@ page 50102 "Store Requisition Card"
                 var
                     LeavePosting: Codeunit "Drug Posting";
                 begin
-                    if Confirm('Do you want to post this leave application?', true) then begin
+                    if Confirm('Do you want to post this requisition?', true) then begin
                         LeavePosting.Post(Rec);
 
                         //Only runs if posting succeeded

@@ -11,7 +11,7 @@ table 50105 "Store Setup"
         }
         field(2; "Drug Nos"; code[20])
         {
-            Caption = 'Description';
+            Caption = 'Drug Nos';
             TableRelation = "No. Series";
         }
         field(3; "Purchase No."; code[20])
