@@ -3,15 +3,22 @@ codeunit 50101 "Drug Posting"
     procedure Post(var Header: Record "Store Requisition Header")
     var
         TempLedger: Record "Drug Ledger Entry" temporary;
+        IsHandled: Boolean;
     begin
+        OnBeforePost(Header, IsHandled);
+        if IsHandled then
+            exit;
+
         ValidateHeader(Header);
         LockHeader(Header);
         ValidateStatus(Header);
-        BuildTempLines(Header, TempLedger);
-        ValidateTempLines(TempLedger);
+        CheckIfAlreadyPosted(Header);
+
         ProcessPosting(TempLedger, Header);
-        InsertLedgerEntries(TempLedger);
+
         Finalize(Header);
+
+        OnAfterPost(Header);
     end;
 
     //Validate the data integrity of the Store requisition
@@ -47,8 +54,17 @@ codeunit 50101 "Drug Posting"
             Error('%1 requisition has been posted, thank you', StoreRequisitionHeader."No.");
     end;
 
+    local procedure CheckIfAlreadyPosted(Header: Record "Store Requisition Header")
+    var
+        Ledger: Record "Drug Ledger Entry";
+    begin
+        Ledger.SetRange("Req No.", Header."No.");
+        if Ledger.FindFirst() then
+            Error('Entries already exist for document %1', Header."No.");
+    end;
+
     //Building temporary ledger entries for store requsition
-    local procedure BuildTempLines(var Header: Record "Store Requisition Header";
+    local procedure BuildTempLedgerEntries(var Header: Record "Store Requisition Header";
     var TempDrugLedger: Record "Drug Ledger Entry" temporary)
     var
         Line: Record "Store Requisition Line";
@@ -62,21 +78,25 @@ codeunit 50101 "Drug Posting"
                 TempDrugLedger."Drug Name" := Line."Item Description";
                 TempDrugLedger.Quantity := -Abs(Line.Quantity);
                 TempDrugLedger."Req No." := Line."Document No.";
+                TempDrugLedger."Requsition Type" := Header."Requisition Type";
+                TempDrugLedger.Status := Header.Status;
+                TempDrugLedger."Posting Date" := CurrentDateTime;
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
         OnAfterBuildTempLeaveLedger(TempDrugLedger);
     end;
 
     //Validate Store Requisition Temporary Ledger
-    local procedure ValidateTempLines(var TempLedgers: Record "Drug Ledger Entry" temporary)
+    local procedure ValidateTempLines(var TempDrugLedgEntry: Record "Drug Ledger Entry" temporary)
     begin
-        if not TempLedgers.FindSet() then
+        if not TempDrugLedgEntry.FindSet() then
             Error('Nothing to post.');
 
         repeat
-            if TempLedgers.Quantity = 0 then
+            if TempDrugLedgEntry.Quantity = 0 then
                 Error('Ledger quantity cannot be zero.');
-        until TempLedgers.Next() = 0;
+        until TempDrugLedgEntry.Next() = 0;
+
     end;
 
     //Process posting 
@@ -84,7 +104,7 @@ codeunit 50101 "Drug Posting"
     begin
         if Header.Status = Header.Status::Posted then
             Error('Document already posted.');
-        BuildTempLines(Header, BuildStoreRequisitionTempLedgers);
+        BuildTempLedgerEntries(Header, BuildStoreRequisitionTempLedgers);
         ValidateTempLines(BuildStoreRequisitionTempLedgers);
         CheckIfPosted(Header);
         InsertLedgerEntries(BuildStoreRequisitionTempLedgers);
