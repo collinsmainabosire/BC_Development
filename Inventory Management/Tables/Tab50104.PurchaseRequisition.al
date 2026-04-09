@@ -5,7 +5,8 @@ table 50104 "Purchase Requisition"
     {
         field(1; "No."; Code[20])
         {
-            Caption = 'Req No.';
+            Caption = 'No.';
+             Editable = false;
         }
         field(2; "Requested Date"; Date)
         {
@@ -31,10 +32,12 @@ table 50104 "Purchase Requisition"
         field(4; "Item Description"; Text[100])
         {
             Caption = 'Item Description';
+             Editable = false;
         }
         field(5; "Unit of Measure"; Code[50])
         {
             Caption = 'Unit of Measure';
+             Editable = false;
         }
         field(6; "Requested By"; Text[100])
         {

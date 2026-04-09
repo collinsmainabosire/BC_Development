@@ -8,6 +8,7 @@ table 50101 "Store Requisition Header"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
+            Editable = false;
         }
         field(2; "Requested Date"; Date)
         {

@@ -8,12 +8,13 @@ table 50100 "Drug Type"
         field(1; "Code"; Code[50])
         {
             Caption = 'Code';
+            Editable = false;
         }
         field(2; Description; Text[50])
         {
             Caption = 'Description';
         }
-        
+
     }
     keys
     {

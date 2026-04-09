@@ -10,6 +10,7 @@ table 50102 "Drug Header"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
+            Editable = false;
         }
         field(2; "Drug Name"; Text[100])
         {
