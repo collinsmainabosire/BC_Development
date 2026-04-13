@@ -71,7 +71,16 @@ table 50106 "Store Requisition Line"
             FieldClass = FlowField;
             CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("Item No.")));
         }
-        
+        field(9; "Batch No."; Code[20])
+        {
+            Caption = 'Batch No.';
+            trigger OnValidate()
+            begin
+                if "Batch No." = '' then
+                    Error('Batch No. must be specified.');
+            end;
+        }
+
     }
     keys
     {
@@ -92,5 +101,21 @@ table 50106 "Store Requisition Line"
             else
                 "Line No." := 1000;
         end;
+
+        CheckDuplicateBatchLine(Rec);
+
+    end;
+
+    local procedure CheckDuplicateBatchLine(Line: Record "Store Requisition Line")
+    var
+        TempLine: Record "Store Requisition Line";
+    begin
+        TempLine.SetRange("Document No.", Line."Document No.");
+        TempLine.SetRange("Item No.", Line."Item No.");
+        TempLine.SetRange("Batch No.", Line."Batch No.");
+
+        if TempLine.FindSet() then
+            if TempLine.Count > 1 then
+                Error('Item %1 with Batch %2 already exists.', Line."Item No.", Line."Batch No.");
     end;
 }

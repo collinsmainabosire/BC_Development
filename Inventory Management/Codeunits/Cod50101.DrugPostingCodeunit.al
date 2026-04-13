@@ -82,10 +82,19 @@ codeunit 50101 "Drug Posting"
                 TempDrugLedger."Created By" := Header."Requested By";
                 TempDrugLedger.Type := Line."Item Type";
                 TempDrugLedger."Unit of Measure" := Line."Unit of Measure";
-                
+                TempDrugLedger."Batch No." := Line."Batch No.";
+
                 TempDrugLedger."Posting Date" := CurrentDateTime;
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
+            
+        if GetBatchStock(TempDrugLedger."Drug No.", TempDrugLedger."Batch No.") < Abs(TempDrugLedger.Quantity) then
+            Error(
+                'Insufficient stock for Item %1 Batch %2. Available: %3',
+                TempDrugLedger."Drug No.",
+                TempDrugLedger."Batch No.",
+                GetBatchStock(TempDrugLedger."Drug No.", TempDrugLedger."Batch No.")
+            );
         OnAfterBuildTempLeaveLedger(TempDrugLedger);
     end;
 
@@ -102,6 +111,22 @@ codeunit 50101 "Drug Posting"
 
     end;
 
+    /// <summary>
+    /// GetBatchStock.
+    /// </summary>
+    /// <param name="ItemNo">Code[20].</param>
+    /// <param name="BatchNo">Code[20].</param>
+    /// <returns>Return value of type Decimal.</returns>
+    procedure GetBatchStock(ItemNo: Code[20]; BatchNo: Code[20]): Decimal
+    var
+        Ledger: Record "Drug Ledger Entry";
+    begin
+        Ledger.SetRange("Drug No.", ItemNo);
+        Ledger.SetRange("Batch No.", BatchNo);
+        Ledger.CalcSums(Quantity);
+        exit(Ledger.Quantity);
+
+    end;
     //Process posting 
     local procedure ProcessPosting(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary; var Header: Record "Store Requisition Header")
     begin

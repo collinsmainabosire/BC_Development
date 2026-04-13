@@ -78,6 +78,7 @@ table 50101 "Store Requisition Header"
         field(12; "Batch No."; Code[50])
         {
             Caption = 'Batch No.';
+       
         }
         field(13; "Expiry Date"; Date)
         {
@@ -106,4 +107,5 @@ table 50101 "Store Requisition Header"
         "Requested Date" := WorkDate;
         "Requisition Type" := "Requisition Type"::Store;
     end;
+
 }
