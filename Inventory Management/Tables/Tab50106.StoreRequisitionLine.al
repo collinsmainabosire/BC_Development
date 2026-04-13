@@ -71,6 +71,7 @@ table 50106 "Store Requisition Line"
             FieldClass = FlowField;
             CalcFormula = sum("Drug Ledger Entry".Quantity where("Drug No." = field("Item No.")));
         }
+        
     }
     keys
     {

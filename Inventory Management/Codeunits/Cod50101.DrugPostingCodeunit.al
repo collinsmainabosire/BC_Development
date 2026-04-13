@@ -78,6 +78,11 @@ codeunit 50101 "Drug Posting"
                 TempDrugLedger.Status := Header.Status;
                 TempDrugLedger."Document No." := Line."Document No.";
                 TempDrugLedger."Line No." := Line."Line No.";
+                TempDrugLedger."Date Created" := Header."Requested Date";
+                TempDrugLedger."Created By" := Header."Requested By";
+                TempDrugLedger.Type := Line."Item Type";
+                TempDrugLedger."Unit of Measure" := Line."Unit of Measure";
+                
                 TempDrugLedger."Posting Date" := CurrentDateTime;
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
@@ -112,9 +117,9 @@ codeunit 50101 "Drug Posting"
     var
         Ledger: Record "Drug Ledger Entry";
     begin
-        Header.SetRange(header."No.", Ledger."Req No.");
-        if Ledger.FindFirst() then
-            Error('Entries already exist for document %1', Header."No.");
+        // Header.SetRange(Header."No.", Ledger."Req No.");
+        // if Ledger.FindFirst() then
+        //     Error('Entries already exist for document %1', Header."No.");
     end;
     //Inserting temporary ledger to the real ledgers
     local procedure InsertLedgerEntries(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
