@@ -92,4 +92,15 @@ table 50104 "Purchase Requisition"
         "Requested Date" := WorkDate;
         "Requisition Type" := "Requisition Type"::Purchase;
     end;
+
+    local procedure ValidateHeader(var Header: Record "Purchase Requisition")
+    begin
+        Header.TestField("No.");
+        Header.TestField("Requested Date");
+        Header.TestField("Requested By");
+        Header.TestField(Status);
+
+        if Header.Status <> Header.Status::Released then
+            Error('Document must be Released before posting.');
+    end;
 }

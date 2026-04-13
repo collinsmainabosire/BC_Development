@@ -105,4 +105,14 @@ table 50101 "Store Requisition Header"
         "Requisition Type" := "Requisition Type"::Store;
     end;
 
+    local procedure ValidateHeader(var Header: Record "Store Requisition Header")
+    begin
+        Header.TestField("No.");
+        Header.TestField("Requested Date");
+        Header.TestField("Requested By");
+        Header.TestField(Status);
+
+        if Header.Status <> Header.Status::Released then
+            Error('Document must be Released before posting.');
+    end;
 }

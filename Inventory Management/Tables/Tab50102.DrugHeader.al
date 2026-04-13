@@ -80,4 +80,17 @@ table 50102 "Drug Header"
         "Created By" := UserId;
 
     end;
+
+    /// <summary>
+    /// ValidateHeader.
+    /// </summary>
+    /// <param name="Header">VAR Record "Store Requisition Header".</param>
+    local procedure ValidateHeader(var Header: Record "Drug Header")
+    begin
+        Header.TestField("No.");
+        Header.TestField("Drug Name");
+        Header.TestField(Type);
+        Header.TestField("Unit of Measure");
+        Header.TestField("Date Created");
+    end;
 }
