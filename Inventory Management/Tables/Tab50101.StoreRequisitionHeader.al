@@ -78,7 +78,7 @@ table 50101 "Store Requisition Header"
         field(12; "Batch No."; Code[50])
         {
             Caption = 'Batch No.';
-       
+
         }
         field(13; "Expiry Date"; Date)
         {
@@ -94,13 +94,10 @@ table 50101 "Store Requisition Header"
     }
     trigger OnInsert()
     var
-        InventorySetup: Record "Store Setup";
-        NoSeriesManagement: Codeunit "No. Series";
+        NOSeriesHelper: Codeunit "No. Series Helper";
     begin
         if "No." = '' then begin
-            InventorySetup.Get();
-            InventorySetup.TestField(InventorySetup."SRN No.");
-            "No." := NoSeriesManagement.GetNextNo(InventorySetup."SRN No.", WorkDate, true);
+            "No." := NOSeriesHelper.GetStoreNoReq();
 
         end;
         "Requested By" := UserId;

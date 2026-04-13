@@ -6,7 +6,7 @@ table 50104 "Purchase Requisition"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
-             Editable = false;
+            Editable = false;
         }
         field(2; "Requested Date"; Date)
         {
@@ -83,13 +83,10 @@ table 50104 "Purchase Requisition"
     }
     trigger OnInsert()
     var
-        InventorySetup: Record "Store Setup";
-        NoSeriesManagement: Codeunit "No. Series";
+        NoSeriesHelper: Codeunit "No. Series Helper";
     begin
         if "No." = '' then begin
-            InventorySetup.Get();
-            InventorySetup.TestField("Purchase No.");
-            "No." := NoSeriesManagement.GetNextNo(InventorySetup."Purchase No.", WorkDate, true);
+            "No." := NoSeriesHelper.GetPurchaseNo();
         end;
         "Requested By" := UserId;
         "Requested Date" := WorkDate;
