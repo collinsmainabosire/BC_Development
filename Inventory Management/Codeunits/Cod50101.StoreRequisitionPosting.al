@@ -1,5 +1,31 @@
-codeunit 50101 "Store Requisition Posting"
+/// <summary>
+/// Codeunit Store Requisition Posting (ID 50101) implements Interface InventoryPostingInterface.
+/// </summary>
+codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface"
 {
+    /// <summary>
+    /// Post.
+    /// </summary>
+    /// <param name="DocumentNo">Code[20].</param>
+    procedure Post(DocumentNo: Code[20])
+    var
+        Header: Record "Store Requisition Header";
+    begin
+        if not Header.Get(DocumentNo) then
+            Error('Document %1 not found', DocumentNo);
+
+        PostStoreRequisition(Header);
+    end;
+
+    procedure Prevalidate(DocumentNo: Code[20])
+    var
+        Header: Record "Store Requisition Header";
+    begin
+        if not Header.Get(DocumentNo) then
+            Error('SRN %1 not found', DocumentNo);
+        Header.TestField(Status, Header.Status::Released);
+    end;
+
     procedure PostStoreRequisition(var Header: Record "Store Requisition Header")
     var
         TempLedger: Record "Drug Ledger Entry" temporary;

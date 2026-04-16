@@ -1,5 +1,27 @@
-codeunit 50100 "PRN Posting"
+/// <summary>
+/// Codeunit PRN Posting (ID 50100) implements Interface InventoryPostingInterface.
+/// </summary>
+codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
 {
+
+    procedure Post(DocumentNo: Code[20])
+    var
+        Header: Record "Purchase Requisition";
+    begin
+        if not Header.Get(DocumentNo) then
+            Error('Document %1 not found', DocumentNo);
+        PostPurchase(Header);
+    end;
+
+    procedure PreValidate(DocumentNo: Code[20])
+    var
+        Header: Record "Purchase Requisition";
+    begin
+        if not Header.Get(DocumentNo) then
+            Error('PRN %1 not found', DocumentNo);
+        Header.TestField(Status, Header.Status::Released);
+    end;
+
     /// <summary>
     /// PostPurchase.
     /// </summary>
@@ -13,18 +35,10 @@ codeunit 50100 "PRN Posting"
         OnBeforePost(Header, IsHandled);
         if IsHandled then
             exit;
-
-        ValidatePRNHeader(Header);
-        ValidatePRNStatus(Header);
-        CheckIfAlreadyPosted(Header);
-        LockPRN(Header);
         BuildTempLedgerEntries(Header, TempLedger, EntryNo);
         ValidateTempLines(TempLedger);
-
         InsertLedgerEntries(TempLedger);
-
         FinalizePosting(Header);
-
         OnAfterPost(Header);
     end;
 
