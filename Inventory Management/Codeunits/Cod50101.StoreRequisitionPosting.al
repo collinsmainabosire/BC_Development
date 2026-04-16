@@ -17,7 +17,7 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         PostStoreRequisition(Header);
     end;
 
-    procedure Prevalidate(DocumentNo: Code[20])
+    procedure PreValidate(DocumentNo: Code[20])
     var
         Header: Record "Store Requisition Header";
     begin
@@ -36,7 +36,6 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
             exit;
 
         ValidateHeader(Header);
-        ValidateStatus(Header);
         CheckIfAlreadyPosted(Header);
         LockHeader(Header);
         BuildTempLedgerEntries(Header, TempLedger);
@@ -101,7 +100,7 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         Line.SetRange("Document No.", Header."No.");
         if Line.FindSet() then
             repeat
-                EntryNo += 1;
+                // EntryNo += 1;
                 TempDrugLedger.Init();
                 TempDrugLedger."Entry No." := EntryNo;
                 TempDrugLedger."Drug No." := Line."Item No.";
