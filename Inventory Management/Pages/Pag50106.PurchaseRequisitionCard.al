@@ -26,7 +26,7 @@ page 50106 "Purchase Requisition Card"
                 field("Requisition Type"; Rec."Requisition Type")
                 {
                     ToolTip = 'Specifies the value of the Requsition Type field.', Comment = '%';
-                    Editable = false;
+                    
                 }
                 field(Status; Rec.Status)
                 {

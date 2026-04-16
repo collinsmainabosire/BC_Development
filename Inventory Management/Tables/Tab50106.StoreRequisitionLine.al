@@ -80,6 +80,11 @@ table 50106 "Store Requisition Line"
                     Error('Batch No. must be specified.');
             end;
         }
+        field(10; "Requisition Type"; Enum "Requisition Type")
+        {
+            Caption = 'Requisition Type';
+            NotBlank = true;
+        }
 
     }
     keys

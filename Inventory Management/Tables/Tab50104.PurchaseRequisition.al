@@ -68,10 +68,10 @@ table 50104 "Purchase Requisition"
         //             Error('Your quantity is %1. Quantity cannot be zero or less negative', Quantity)
         //     end;
         // }
-        field(11; "Requisition Type"; Option)
+        field(11; "Requisition Type"; Enum "Requisition Type")
         {
             Caption = 'Requisition Type';
-            OptionMembers = ,Purchase,Store;
+            NotBlank = true;
         }
     }
     keys
@@ -90,7 +90,7 @@ table 50104 "Purchase Requisition"
         end;
         "Requested By" := UserId;
         "Requested Date" := WorkDate;
-        "Requisition Type" := "Requisition Type"::Purchase;
+        // "Requisition Type" := "Requisition Type"::Purchase;
     end;
 
     local procedure ValidateHeader(var Header: Record "Purchase Requisition")
