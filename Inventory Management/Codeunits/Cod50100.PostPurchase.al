@@ -43,13 +43,6 @@ codeunit 50100 "PRN Posting"
         Line: Record "Purchase Requisition Line";
     begin
         PurchaseRequisitionHeader.LockTable();
-
-        if not PurchaseRequisitionHeader.Get(PurchaseRequisitionHeader."No.") then
-            Error('Document %1 not found.', PurchaseRequisitionHeader."No.");
-
-        // Lock related lines
-        Line.LockTable();
-        Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
     end;
 
     //Validate PRN state after lcoking
@@ -65,27 +58,27 @@ codeunit 50100 "PRN Posting"
     var
         Line: Record "Purchase Requisition Line";
     begin
+        OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger);
         Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
-
         if Line.FindSet() then
             repeat
+                TempDrugLedger.Reset();
                 TempDrugLedger.Init();
                 //header building
                 TempDrugLedger."Created By" := PurchaseRequisitionHeader."Requested By";
                 TempDrugLedger."Date Created" := PurchaseRequisitionHeader."Requested Date";
                 TempDrugLedger.Status := PurchaseRequisitionHeader.Status;
                 TempDrugLedger."Requsition Type" := PurchaseRequisitionHeader."Requisition Type";
-                //Lines
-                //TempDrugLedger."Req No." := Line."Document No.";
                 TempDrugLedger."Drug No." := Line."Item No.";
                 TempDrugLedger."Drug Name" := Line."Item Description";
                 TempDrugLedger.Type := Line."Item Type";
-                TempDrugLedger.Quantity := Line.Quantity;
+                TempDrugLedger.Quantity := Abs(Line.Quantity);
                 TempDrugLedger."Unit of Measure" := Line."Unit of Measure";
                 TempDrugLedger."Line No." := Line."Line No.";
                 TempDrugLedger."Document No." := Line."Document No.";
                 TempDrugLedger.Insert(true);
             until Line.Next() = 0;
+        OnAfterBuildTempPRNLLedgers(TempDrugLedger);
     end;
 
     //Validating PRN Temp Ledgers
@@ -94,10 +87,10 @@ codeunit 50100 "PRN Posting"
         if not PRNTempLedger.FindSet() then
             Error('Nothing to post.');
 
-        // repeat
-        //     if PRNTempLedger.Quantity = 0 then
-        //         Error('Ledger quantity cannot be zero.');
-        // until PRNTempLedger.Next() = 0;
+        repeat
+            if PRNTempLedger.Quantity = 0 then
+                Error('Ledger quantity cannot be zero.');
+        until PRNTempLedger.Next() = 0;
     end;
 
     local procedure CheckIfAlreadyPosted(Header: Record "Purchase Requisition")
@@ -129,7 +122,7 @@ codeunit 50100 "PRN Posting"
     end;
     //Events
     [IntegrationEvent(false, false)]
-    local procedure OnBeforePost(Var Header: Record "Purchase Requisition"; IsHandled: Boolean)
+    local procedure OnBeforePost(Var Header: Record "Purchase Requisition"; var IsHandled: Boolean)
     begin
     end;
 
