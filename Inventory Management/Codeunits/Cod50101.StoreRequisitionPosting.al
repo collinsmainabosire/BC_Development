@@ -67,12 +67,17 @@ codeunit 50101 "Store Requisition Posting"
     var
         TempDrugLedger: Record "Drug Ledger Entry" temporary)
         Line: Record "Store Requisition Line";
+    var
+        EntryNo: Integer;
     begin
         OnBeforeBuildTempLeaveLedger(Header, TempDrugLedger);
+        EntryNo := 0;
         Line.SetRange("Document No.", Header."No.");
         if Line.FindSet() then
             repeat
+                EntryNo += 1;
                 TempDrugLedger.Init();
+                TempDrugLedger."Entry No." := EntryNo;
                 TempDrugLedger."Drug No." := Line."Item No.";
                 TempDrugLedger."Drug Name" := Line."Item Description";
                 TempDrugLedger.Quantity := -Abs(Line.Quantity);
@@ -89,9 +94,6 @@ codeunit 50101 "Store Requisition Posting"
                 TempDrugLedger."Posting Date" := CurrentDateTime;
                 if GetBatchStock(Line."Item No.", Line."Batch No.") < Abs(Line.Quantity) then
                     Error('Insufficient stock for Item %1 Batch %2. Available: %3', Line."Item No.", Line."Batch No.", GetBatchStock(Line."Item No.", Line."Batch No."));
-                if GetBatchStock(Line."Item No.", Line."Batch No.") < Abs(Line.Quantity) then
-                    Error('Insufficient stock for Item %1 Batch %2', Line."Item No.", Line."Batch No.");
-
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
         OnAfterBuildTempLeaveLedger(TempDrugLedger);
@@ -135,8 +137,8 @@ codeunit 50101 "Store Requisition Posting"
             repeat
                 StoreRequisitionLedger.Init();
                 StoreRequisitionLedger.TransferFields(BuildStoreRequisitionTempLedgers, false);
-                // StoreRequisitionLedger."Entry No." := 0;
-                StoreRequisitionLedger.Insert(true);
+                StoreRequisitionLedger."Entry No." := 0;
+                StoreRequisitionLedger.Insert(false);
             until BuildStoreRequisitionTempLedgers.Next() = 0;
 
     end;

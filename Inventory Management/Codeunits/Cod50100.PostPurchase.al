@@ -8,6 +8,7 @@ codeunit 50100 "PRN Posting"
     var
         TempLedger: Record "Drug Ledger Entry" temporary;
         IsHandled: Boolean;
+        EntryNo: Integer;
     begin
         OnBeforePost(Header, IsHandled);
         if IsHandled then
@@ -17,7 +18,7 @@ codeunit 50100 "PRN Posting"
         ValidatePRNStatus(Header);
         CheckIfAlreadyPosted(Header);
         LockPRN(Header);
-        BuildTempLedgerEntries(Header, TempLedger);
+        BuildTempLedgerEntries(Header, TempLedger, EntryNo);
         ValidateTempLines(TempLedger);
 
         InsertLedgerEntries(TempLedger);
@@ -54,17 +55,18 @@ codeunit 50100 "PRN Posting"
     end;
 
     //BUilding Temporary purchase requsition ledgers
-    local procedure BuildTempLedgerEntries(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary)
+    local procedure BuildTempLedgerEntries(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary; var EntryNo: Integer)
     var
         Line: Record "Purchase Requisition Line";
     begin
         OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger);
+        EntryNo := 0;
         Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
         if Line.FindSet() then
             repeat
-                TempDrugLedger.Reset();
+                EntryNo += 1;
                 TempDrugLedger.Init();
-                //header building
+                TempDrugLedger."Entry No." := EntryNo;
                 TempDrugLedger."Created By" := PurchaseRequisitionHeader."Requested By";
                 TempDrugLedger."Date Created" := PurchaseRequisitionHeader."Requested Date";
                 TempDrugLedger.Status := PurchaseRequisitionHeader.Status;
@@ -111,7 +113,8 @@ codeunit 50100 "PRN Posting"
             repeat
                 PurchaseRequisitionLedger.Init();
                 PurchaseRequisitionLedger.TransferFields(PRNTempLedger, false);
-                PurchaseRequisitionLedger.Insert(true);
+                PurchaseRequisitionLedger."Entry No." := 0;
+                PurchaseRequisitionLedger.Insert(false);
             until PRNTempLedger.Next() = 0;
     end;
 
