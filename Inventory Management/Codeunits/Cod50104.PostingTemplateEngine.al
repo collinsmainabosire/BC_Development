@@ -1,4 +1,4 @@
-codeunit 50104 "Posting Template Engine"
+codeunit 50104 "Inventory Posting Engine"
 {
     /// <summary>
     /// RunPosting.

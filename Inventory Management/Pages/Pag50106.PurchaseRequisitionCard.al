@@ -59,11 +59,13 @@ page 50106 "Purchase Requisition Card"
                 trigger OnAction()
                 var
                     PurchasePosting: Codeunit "Inventory Posting Engine";
-                //Header: Record "Purchase Requisition";
+                    Header: Record "Purchase Requisition";
+                    PostDocument: Codeunit "PRN Posting";
+                    Handler: Interface InventoryPostingInterface;
                 begin
                     if Confirm('Do you want to post this requisition application?', true) then begin
-                        PurchasePosting.PostDocument(Rec."No.", Rec."Requisition Type");
-
+                        Handler := PostDocument;
+                        PurchasePosting.RunPosting('PRN001', Handler);
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");
                         CurrPage.Update();

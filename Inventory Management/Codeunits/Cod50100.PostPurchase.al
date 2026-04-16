@@ -19,6 +19,8 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
     begin
         if not Header.Get(DocumentNo) then
             Error('PRN %1 not found', DocumentNo);
+
+        CheckIfAlreadyPosted(Header);
         Header.TestField(Status, Header.Status::Released);
     end;
 
@@ -36,7 +38,6 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
         if IsHandled then
             exit;
         LockPRN(Header);
-        CheckIfAlreadyPosted(Header);
         BuildTempLedgerEntries(Header, TempLedger, EntryNo);
         ValidateTempLines(TempLedger);
         InsertLedgerEntries(TempLedger);

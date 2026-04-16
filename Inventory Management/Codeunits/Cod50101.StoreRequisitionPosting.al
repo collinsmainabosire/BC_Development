@@ -24,6 +24,10 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         if not Header.Get(DocumentNo) then
             Error('SRN %1 not found', DocumentNo);
         Header.TestField(Status, Header.Status::Released);
+        Header.TestField("No.");
+        Header.TestField("Requested Date");
+        Header.TestField("Requested By");
+        CheckIfAlreadyPosted(Header);
     end;
 
     procedure PostStoreRequisition(var Header: Record "Store Requisition Header")
@@ -35,8 +39,8 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         if IsHandled then
             exit;
 
-        ValidateHeader(Header);
-        CheckIfAlreadyPosted(Header);
+
+
         LockHeader(Header);
         BuildTempLedgerEntries(Header, TempLedger);
         ValidateTempLines(TempLedger);
@@ -44,16 +48,6 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         Finalize(Header);
         OnAfterPost(Header);
     end;
-
-    //Validate the data integrity of the Store requisition
-    local procedure ValidateHeader(var StoreRequisitionHeader: Record "Store Requisition Header")
-    begin
-        StoreRequisitionHeader.TestField("No.");
-        StoreRequisitionHeader.TestField("Requested Date");
-        StoreRequisitionHeader.TestField("Requested By");
-        StoreRequisitionHeader.TestField(Status);
-    end;
-
     //Lock the document to prevent two users from posting it
     /// <summary>
     /// LockStoreRequisition.
@@ -100,7 +94,7 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
         Line.SetRange("Document No.", Header."No.");
         if Line.FindSet() then
             repeat
-                // EntryNo += 1;
+                EntryNo += 1;
                 TempDrugLedger.Init();
                 TempDrugLedger."Entry No." := EntryNo;
                 TempDrugLedger."Drug No." := Line."Item No.";
