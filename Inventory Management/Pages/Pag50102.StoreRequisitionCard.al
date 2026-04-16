@@ -57,13 +57,10 @@ page 50102 "Store Requisition Card"
 
                 trigger OnAction()
                 var
-                    Engine: Codeunit "Inventory Posting Engine";
-                    Handler: Interface InventoryPostingInterface;
-                    StorePosting: Codeunit "Store Requisition Posting";
+                    PostingService: Codeunit "Inventory Posting Service";
                 begin
                     if Confirm('Do you want to post this requisition?', true) then begin
-                        Handler := StorePosting;
-                        Engine.RunPosting('SRN001', Handler);
+                        PostingService.PostDocument(Rec."No.", Rec."Requisition Type");
 
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");
