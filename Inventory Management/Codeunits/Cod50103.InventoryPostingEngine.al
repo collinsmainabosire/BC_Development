@@ -7,15 +7,15 @@ codeunit 50103 "Inventory Posting Engine"
         PurchaseHeader: Record "Purchase Requisition";
         PurchasePost: Codeunit "PRN Posting";
     begin
+
         case DocType of
-            DocType::"Store Requisition":
+            DocType::Store:
                 begin
                     StoreHeader.Get(DocumentNo);
                     StorePosting.PostStoreRequisition(StoreHeader);
                 end;
-        end;
-        case DocType of
-            DocType::"Purchase Requisition":
+
+            DocType::Purchase:
                 begin
                     PurchaseHeader.Get(DocumentNo);
                     PurchasePost.PostPurchase(PurchaseHeader);

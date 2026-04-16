@@ -69,10 +69,9 @@ table 50103 "Drug Ledger Entry"
         {
             Caption = 'Status';
         }
-        field(14; "Requsition Type"; Option)
+        field(14; "Requsition Type"; Enum "Requisition Type")
         {
             Caption = 'Requisition Type';
-            OptionMembers = ,Purchase,Store;
         }
         field(15; "Batch No."; Code[50])
         {

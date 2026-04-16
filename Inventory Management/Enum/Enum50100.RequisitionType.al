@@ -1,13 +1,13 @@
 enum 50100 "Requisition Type"
 {
     Extensible = true;
-    value(1; "Store Requisition")
+    value(0; Store)
     {
-        Caption = 'Store Requisition';
+        Caption = 'Store';
     }
-    value(2; "Purchase Requisition")
+    value(1; Purchase)
     {
-        Caption = 'Purchase Requisition';
+        Caption = 'Purchase';
     }
 
 

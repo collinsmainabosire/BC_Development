@@ -26,7 +26,7 @@ page 50106 "Purchase Requisition Card"
                 field("Requisition Type"; Rec."Requisition Type")
                 {
                     ToolTip = 'Specifies the value of the Requsition Type field.', Comment = '%';
-                    
+
                 }
                 field(Status; Rec.Status)
                 {
@@ -58,10 +58,11 @@ page 50106 "Purchase Requisition Card"
 
                 trigger OnAction()
                 var
-                    PurchasePosting: Codeunit "PRN Posting";
+                    PurchasePosting: Codeunit "Inventory Posting Engine";
+                //Header: Record "Purchase Requisition";
                 begin
-                    if Confirm('Do you want to post this leave application?', true) then begin
-                        PurchasePosting.PostPurchase(Rec);
+                    if Confirm('Do you want to post this requisition application?', true) then begin
+                        PurchasePosting.PostDocument(Rec."No.", Rec."Requisition Type");
 
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");

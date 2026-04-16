@@ -70,10 +70,9 @@ table 50101 "Store Requisition Header"
         //              "Item Description", "Item Balance");
         //     end;
         // }
-        field(11; "Requisition Type"; Option)
+        field(11; "Requisition Type"; Enum "Requisition Type")
         {
             Caption = 'Requisition Type';
-            OptionMembers = ,Purchase,Store;
         }
         field(12; "Batch No."; Code[50])
         {
@@ -102,7 +101,6 @@ table 50101 "Store Requisition Header"
         end;
         "Requested By" := UserId;
         "Requested Date" := WorkDate;
-        "Requisition Type" := "Requisition Type"::Store;
     end;
 
     local procedure ValidateHeader(var Header: Record "Store Requisition Header")

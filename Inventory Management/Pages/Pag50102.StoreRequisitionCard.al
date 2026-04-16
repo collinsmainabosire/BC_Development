@@ -26,7 +26,7 @@ page 50102 "Store Requisition Card"
                 field("Requisition Type"; Rec."Requisition Type")
                 {
                     ToolTip = 'Specifies the value of the Requsition Type field.', Comment = '%';
-                    
+
                 }
                 field(Status; Rec.Status)
                 {
@@ -57,10 +57,10 @@ page 50102 "Store Requisition Card"
 
                 trigger OnAction()
                 var
-                    StorePosting: Codeunit "Store Requisition Posting";
+                    StorePosting: Codeunit "Inventory Posting Engine";
                 begin
                     if Confirm('Do you want to post this requisition?', true) then begin
-                        StorePosting.PostStoreRequisition(Rec);
+                        StorePosting.PostDocument(Rec."No.", Rec."Requisition Type");
 
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");
