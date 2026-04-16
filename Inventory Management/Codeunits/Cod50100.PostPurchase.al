@@ -1,20 +1,30 @@
 codeunit 50100 "PRN Posting"
 {
-    procedure Post(var PurchaseRequisitionHeader: Record "Purchase Requisition")
+    /// <summary>
+    /// PostPurchase.
+    /// </summary>
+    /// <param name="Header">VAR Record "Purchase Requisition".</param>
+    procedure PostPurchase(var Header: Record "Purchase Requisition")
     var
-        PRNTempLedger: Record "Drug Ledger Entry" temporary;
+        TempLedger: Record "Drug Ledger Entry" temporary;
         IsHandled: Boolean;
     begin
-        OnBeforePost();
+        OnBeforePost(Header, IsHandled);
         if IsHandled then
             exit;
-        ValidatePRNHeader(PurchaseRequisitionHeader);
-        LockPRN(PurchaseRequisitionHeader);
-        ValidatePRNState(PurchaseRequisitionHeader);
-        //CheckIfPosted();
-        ProcessPosting(PurchaseRequisitionHeader, PRNTempLedger);
-        FinalizePosting(PurchaseRequisitionHeader);
-        OnAfterPost();
+
+        ValidatePRNHeader(Header);
+        ValidatePRNStatus(Header);
+        CheckIfAlreadyPosted(Header);
+        LockPRN(Header);
+        BuildTempLedgerEntries(Header, TempLedger);
+        ValidateTempLines(TempLedger);
+
+        InsertLedgerEntries(TempLedger);
+
+        FinalizePosting(Header);
+
+        OnAfterPost(Header);
     end;
 
     //Validating PRN
@@ -29,35 +39,29 @@ codeunit 50100 "PRN Posting"
 
     //Locking the PRN
     local procedure LockPRN(var PurchaseRequisitionHeader: Record "Purchase Requisition")
+    var
+        Line: Record "Purchase Requisition Line";
     begin
         PurchaseRequisitionHeader.LockTable();
+
         if not PurchaseRequisitionHeader.Get(PurchaseRequisitionHeader."No.") then
-            Error('Document not found');
-        if PurchaseRequisitionHeader.Status = PurchaseRequisitionHeader.Status::Posted then
-            Error('Document already posted');
-        PurchaseRequisitionHeader.SetRange(PurchaseRequisitionHeader."No.");
+            Error('Document %1 not found.', PurchaseRequisitionHeader."No.");
+
+        // Lock related lines
+        Line.LockTable();
+        Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
     end;
 
     //Validate PRN state after lcoking
-    local procedure ValidatePRNState(var PurchaseRequisitionHeader: Record "Purchase Requisition")
+    local procedure ValidatePRNStatus(var PurchaseRequisitionHeader: Record "Purchase Requisition")
     begin
         PurchaseRequisitionHeader.TestField(Status, PurchaseRequisitionHeader.Status::Released);
         if PurchaseRequisitionHeader.Status = PurchaseRequisitionHeader.Status::Posted then
             Error('Sorry the PRN %1 %2 has been posted', PurchaseRequisitionHeader."No.", PurchaseRequisitionHeader."Requisition Type");
     end;
 
-    //Precessing Posting level 
-    local procedure ProcessPosting(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var PRNTempLedger: Record "Drug Ledger Entry" temporary)
-    begin
-        BuildPRNTempLedgers(PurchaseRequisitionHeader, PRNTempLedger);
-        ValidatePRNTempLedgers(PRNTempLedger);
-        InsertPRNTempLedgers(PRNTempLedger);
-
-    end;
-
-
     //BUilding Temporary purchase requsition ledgers
-    local procedure BuildPRNTempLedgers(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary)
+    local procedure BuildTempLedgerEntries(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary)
     var
         Line: Record "Purchase Requisition Line";
     begin
@@ -85,7 +89,7 @@ codeunit 50100 "PRN Posting"
     end;
 
     //Validating PRN Temp Ledgers
-    local procedure ValidatePRNTempLedgers(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
+    local procedure ValidateTempLines(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
     begin
         if not PRNTempLedger.FindSet() then
             Error('Nothing to post.');
@@ -105,7 +109,7 @@ codeunit 50100 "PRN Posting"
             Error('Entries already exist for document %1', Header."No.");
     end;
     //Inserting  PRN Temp Ledgers to item ledger entries
-    local procedure InsertPRNTempLedgers(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
+    local procedure InsertLedgerEntries(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
     var
         PurchaseRequisitionLedger: Record "Drug Ledger Entry";
 
@@ -125,12 +129,12 @@ codeunit 50100 "PRN Posting"
     end;
     //Events
     [IntegrationEvent(false, false)]
-    local procedure OnBeforePost()
+    local procedure OnBeforePost(Var Header: Record "Purchase Requisition"; IsHandled: Boolean)
     begin
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterPost()
+    local procedure OnAfterPost(var Header: Record "Purchase Requisition")
     begin
 
     end;

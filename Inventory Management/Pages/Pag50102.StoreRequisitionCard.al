@@ -57,10 +57,10 @@ page 50102 "Store Requisition Card"
 
                 trigger OnAction()
                 var
-                    LeavePosting: Codeunit "Drug Posting";
+                    StorePosting: Codeunit "Store Requisition Posting";
                 begin
                     if Confirm('Do you want to post this requisition?', true) then begin
-                        LeavePosting.Post(Rec);
+                        StorePosting.PostStoreRequisition(Rec);
 
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");

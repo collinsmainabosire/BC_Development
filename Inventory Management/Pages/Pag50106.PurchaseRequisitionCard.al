@@ -61,7 +61,7 @@ page 50106 "Purchase Requisition Card"
                     PurchasePosting: Codeunit "PRN Posting";
                 begin
                     if Confirm('Do you want to post this leave application?', true) then begin
-                        PurchasePosting.Post(Rec);
+                        PurchasePosting.PostPurchase(Rec);
 
                         //Only runs if posting succeeded
                         Message('Requisition  %1 %2 posted successfully.', Rec."No.", Rec."Requisition Type");
