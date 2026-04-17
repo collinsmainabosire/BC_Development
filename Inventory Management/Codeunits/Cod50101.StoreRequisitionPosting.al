@@ -42,6 +42,7 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
 
 
         LockHeader(Header);
+        ValidateStatus(Header);
         BuildTempLedgerEntries(Header, TempLedger);
         ValidateTempLines(TempLedger);
         InsertLedgerEntries(TempLedger);
@@ -89,7 +90,6 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
     var
         EntryNo: Integer;
     begin
-        OnBeforeBuildTempLeaveLedger(Header, TempDrugLedger);
         EntryNo := 0;
         Line.SetRange("Document No.", Header."No.");
         if Line.FindSet() then
@@ -115,7 +115,6 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
                     Error('Insufficient stock for Item %1 Batch %2. Available: %3', Line."Item No.", Line."Batch No.", GetBatchStock(Line."Item No.", Line."Batch No."));
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
-        OnAfterBuildTempLeaveLedger(TempDrugLedger);
     end;
 
     //Validate Store Requisition Temporary Ledger
@@ -183,17 +182,5 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
 
     end;
 
-    //Event subsucriber for tempoerary ledgers builiding
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeBuildTempLeaveLedger(var StoreRequisitionHeader: Record "Store Requisition Header";
-    var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
-    begin
 
-    end;
-
-    [IntegrationEvent(false, false)]
-    local procedure OnAfterBuildTempLeaveLedger(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
-    begin
-
-    end;
 }

@@ -38,6 +38,7 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
         if IsHandled then
             exit;
         LockPRN(Header);
+        ValidatePRNStatus(Header);
         BuildTempLedgerEntries(Header, TempLedger, EntryNo);
         ValidateTempLines(TempLedger);
         InsertLedgerEntries(TempLedger);
