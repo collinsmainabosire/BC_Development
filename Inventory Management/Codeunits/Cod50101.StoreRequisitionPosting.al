@@ -84,12 +84,15 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
 
     //Building temporary ledger entries for store requsition
     local procedure BuildTempLedgerEntries(var Header: Record "Store Requisition Header";
+    var TempDrugLedger: Record "Drug Ledger Entry" temporary)
     var
-        TempDrugLedger: Record "Drug Ledger Entry" temporary)
         Line: Record "Store Requisition Line";
-    var
+        IsHandled: Boolean;
         EntryNo: Integer;
     begin
+        OnBeforeBuildTempLedgerEntries(Header, TempDrugLedger, IsHandled);
+        if not IsHandled then
+            exit;
         EntryNo := 0;
         Line.SetRange("Document No.", Header."No.");
         if Line.FindSet() then
@@ -115,7 +118,9 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
                     Error('Insufficient stock for Item %1 Batch %2. Available: %3', Line."Item No.", Line."Batch No.", GetBatchStock(Line."Item No.", Line."Batch No."));
                 TempDrugLedger.Insert();
             until Line.Next() = 0;
+        OnAfterBuildTempLedgerEntries();
     end;
+
 
     //Validate Store Requisition Temporary Ledger
     local procedure ValidateTempLines(var TempDrugLedgEntry: Record "Drug Ledger Entry" temporary)
@@ -182,5 +187,16 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
 
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeBuildTempLedgerEntries(var Header: Record "Store Requisition Header";
+        var TempDrugLedger: Record "Drug Ledger Entry" temporary; var IsHandled: Boolean)
+    begin
 
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterBuildTempLedgerEntries()
+    begin
+
+    end;
 }
