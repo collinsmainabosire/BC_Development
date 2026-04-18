@@ -77,7 +77,7 @@ page 50106 "Purchase Requisition Card"
                 var
                     RecRef: Record "Purchase Requisition";
                 begin
-                    Rec.TestField(Status, Rec.Status::Released);
+                    Rec.TestField(Status, Rec.Status::Open);
                     Rec.Status := Rec.Status::"Pending Approval";
                     Rec.Modify(true);
                     Message('Approval requested');

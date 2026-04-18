@@ -24,7 +24,7 @@ codeunit 50105 "Inventory Posting Subscribers"
             repeat
                 if Line.Quantity > 100 then
                     Error('Quantity of %1 of line %2  item %3 %4 exceeds recommended purchase', Line."Document No.", Line."Line No.", Line."Item No.", Line."Item Description");
-                IsHandled := true;
+            //IsHandled := true;
             until Line.next() = 0;
     end;
 
@@ -49,8 +49,12 @@ codeunit 50105 "Inventory Posting Subscribers"
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Post Purchase", 'OnAfterPost', '', false, false)]
     local procedure LogPosting(var Header: Record "Purchase Requisition")
+    var
+        Ishandled: Boolean;
     begin
+        //Ishandled := true;
         Message('PRN %1 posted by %2 at %3', Header."No.", UserId, CurrentDateTime);
+
     end;
 
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Post Purchase", 'OnBeforePost', '', false, false)]

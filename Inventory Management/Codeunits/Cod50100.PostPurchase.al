@@ -109,7 +109,7 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
     local procedure ValidateTempLines(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
     begin
         //if PRNTempLedger.FindSet() then
-       //     Error('Nothing to post.');
+        //     Error('Nothing to post.');
 
         repeat
         // if PRNTempLedger.Quantity = 0 then
@@ -154,7 +154,7 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
     end;
     //Events
     [IntegrationEvent(false, false)]
-    local procedure OnBeforePost(Var Header: Record "Purchase Requisition";  var IsHandled: Boolean)
+    local procedure OnBeforePost(Var Header: Record "Purchase Requisition"; var IsHandled: Boolean)
     begin
     end;
 
