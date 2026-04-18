@@ -80,8 +80,6 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
         IsHandled: Boolean;
     begin
         OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger, IsHandled);
-        if not IsHandled then
-            exit;
         EntryNo := 0;
         Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
         if Line.FindSet() then
@@ -132,8 +130,6 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
         IsHandled: Boolean;
 
     begin
-        if not IsHandled then
-            exit;
         if PRNTempLedger.FindSet() then
             repeat
                 PurchaseRequisitionLedger.Init();
@@ -147,8 +143,6 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
     var
         IsHandled: Boolean;
     begin
-        if not IsHandled then
-            exit;
         PurchaseRequisitionHeader.Status := PurchaseRequisitionHeader.Status::Posted;
         PurchaseRequisitionHeader.Modify(true);
     end;
