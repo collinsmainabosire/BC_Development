@@ -125,12 +125,12 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
     //Validate Store Requisition Temporary Ledger
     local procedure ValidateTempLines(var TempDrugLedgEntry: Record "Drug Ledger Entry" temporary)
     begin
-        if not TempDrugLedgEntry.FindSet() then
-            Error('Nothing to post.');
+        // if not TempDrugLedgEntry.FindSet() then
+        //   Error('Nothing to post.');
 
         repeat
-            if TempDrugLedgEntry.Quantity = 0 then
-                Error('Ledger quantity cannot be zero.');
+        //if TempDrugLedgEntry.Quantity = 0 then
+        //   Error('Ledger quantity cannot be zero.');
         until TempDrugLedgEntry.Next() = 0;
 
     end;
