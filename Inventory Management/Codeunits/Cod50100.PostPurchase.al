@@ -76,8 +76,11 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
     local procedure BuildTempLedgerEntries(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var TempDrugLedger: Record "Drug Ledger Entry" temporary; var EntryNo: Integer)
     var
         Line: Record "Purchase Requisition Line";
+        IsHandled: Boolean;
     begin
-        OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger);
+        OnBeforeBuildTempPRNLLedgers(PurchaseRequisitionHeader, TempDrugLedger, IsHandled);
+        if not IsHandled then
+            exit;
         EntryNo := 0;
         Line.SetRange("Document No.", PurchaseRequisitionHeader."No.");
         if Line.FindSet() then
@@ -125,8 +128,11 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
     local procedure InsertLedgerEntries(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
     var
         PurchaseRequisitionLedger: Record "Drug Ledger Entry";
+        IsHandled: Boolean;
 
     begin
+        if not IsHandled then
+            exit;
         if PRNTempLedger.FindSet() then
             repeat
                 PurchaseRequisitionLedger.Init();
@@ -137,7 +143,11 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
     end;
 
     local procedure FinalizePosting(var PurchaseRequisitionHeader: Record "Purchase Requisition")
+    var
+        IsHandled: Boolean;
     begin
+        if not IsHandled then
+            exit;
         PurchaseRequisitionHeader.Status := PurchaseRequisitionHeader.Status::Posted;
         PurchaseRequisitionHeader.Modify(true);
     end;
@@ -154,7 +164,8 @@ codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeBuildTempPRNLLedgers(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var PRNTempLedger: Record "Drug Ledger Entry" temporary)
+    local procedure OnBeforeBuildTempPRNLLedgers(var PurchaseRequisitionHeader: Record "Purchase Requisition"; var PRNTempLedger: Record "Drug Ledger Entry" temporary
+    ; var IsHandled: Boolean)
     begin
 
     end;
