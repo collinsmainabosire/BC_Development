@@ -68,6 +68,37 @@ page 50106 "Purchase Requisition Card"
                     end;
                 end;
             }
+            action("Send Approval")
+            {
+
+                Caption = 'Request Approval';
+
+                trigger OnAction()
+                var
+                    RecRef: Record "Purchase Requisition";
+                begin
+                    Rec.TestField(Status, Rec.Status::Released);
+                    Rec.Status := Rec.Status::"Pending Approval";
+                    Rec.Modify(true);
+                    Message('Approval requested');
+                end;
+            }
+            action(Approve)
+            {
+                Caption = 'Approve';
+
+                trigger OnAction()
+                begin
+                    Rec.TestField("Status", Rec."Status"::"Pending Approval");
+
+                    Rec."Status" := Rec."Status"::Released;
+                    Rec.Modify(true);
+
+                    Message('Document approved');
+                end;
+            }
         }
+
     }
+
 }

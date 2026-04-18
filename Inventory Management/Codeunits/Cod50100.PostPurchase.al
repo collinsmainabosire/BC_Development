@@ -108,8 +108,8 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
     //Validating PRN Temp Ledgers
     local procedure ValidateTempLines(var PRNTempLedger: Record "Drug Ledger Entry" temporary)
     begin
-        if PRNTempLedger.FindSet() then
-            Error('Nothing to post.');
+        //if PRNTempLedger.FindSet() then
+       //     Error('Nothing to post.');
 
         repeat
         // if PRNTempLedger.Quantity = 0 then
