@@ -5,7 +5,7 @@ codeunit 50103 "Inventory Posting Service"
         Engine: Codeunit "Inventory Posting Engine";
         Handler: Interface InventoryPostingInterface;
         StorePosting: Codeunit "Store Requisition Posting";
-        PurchasePosting: Codeunit "PRN Posting";
+        PurchasePosting: Codeunit "Post Purchase";
     begin
         case Type of
             Type::Store:

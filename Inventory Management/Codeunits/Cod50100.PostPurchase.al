@@ -1,7 +1,7 @@
 /// <summary>
 /// Codeunit PRN Posting (ID 50100) implements Interface InventoryPostingInterface.
 /// </summary>
-codeunit 50100 "PRN Posting" implements "InventoryPostingInterface"
+codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
 {
 
     procedure Post(DocumentNo: Code[20])

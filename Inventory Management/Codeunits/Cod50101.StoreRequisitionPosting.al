@@ -155,7 +155,10 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
     local procedure InsertLedgerEntries(var BuildStoreRequisitionTempLedgers: Record "Drug Ledger Entry" temporary)
     var
         StoreRequisitionLedger: Record "Drug Ledger Entry";
+        IsHandled: Boolean;
     begin
+        if not IsHandled then
+            exit;
         if BuildStoreRequisitionTempLedgers.FindSet() then
             repeat
                 StoreRequisitionLedger.Init();
@@ -170,7 +173,10 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
     local procedure Finalize(var Header: Record "Store Requisition Header")
     var
         StoreRequisitionLedger: Record "Drug Ledger Entry";
+        IsHandled: Boolean;
     begin
+        if not IsHandled then
+            exit;
         Header.Status := Header.Status::Posted;
         Header.Modify(true);
     end;
