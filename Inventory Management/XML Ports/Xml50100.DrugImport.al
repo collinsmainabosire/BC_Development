@@ -22,13 +22,11 @@ xmlport 50100 "Drug Import"
                 }
                 trigger OnBeforeInsertRecord()
                 var
-                    ExistingDrug: Record "Drug Header";
+                    Drug: Record "Drug Header";
+                    DrugMgt: Codeunit "Drug Management";
                 begin
-                    if ExistingDrug."No." = '' then
-                        Error('Drug number cannot be empty');
-
-                    if ExistingDrug.Get(DrugHeader."No.") then
-                        Error('Drug 1% already exisits', DrugHeader."No.");
+                    DrugMgt.CreateDrug(Drug."No.", Drug."Drug Name", Drug."Unit of Measure", Drug.Type);
+                    CurrXMLport.Skip();
                 end;
             }
         }

@@ -45,4 +45,23 @@ page 50101 "Drug Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(ImportDrugs)
+            {
+                Caption = 'Import Drugs';
+                ApplicationArea = All;
+                Image = Import;
+
+                trigger OnAction()
+                var
+                    DrugImport: XmlPort "Drug Import";
+                begin
+                    DrugImport.Run();
+                end;
+            }
+        }
+    }
 }
