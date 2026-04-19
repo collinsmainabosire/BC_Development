@@ -62,4 +62,23 @@ page 50105 "Drug Ledger Entry Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(ExportDrugs)
+            {
+                Caption = 'Export Drug Ledgers';
+                ApplicationArea = All;
+                Image = Export;
+
+                trigger OnAction()
+                var
+                    DrugImport: XmlPort "Drug Ledger Export";
+                begin
+                    DrugImport.Run();
+                end;
+            }
+        }
+    }
 }
