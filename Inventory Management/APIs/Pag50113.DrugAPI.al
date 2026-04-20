@@ -1,15 +1,16 @@
 page 50113 "Drug API"
 {
-    APIGroup = 'Phamarcy';
-    APIPublisher = 'BCDev';
+    APIGroup = 'phamarcy';
+    APIPublisher = 'bcdev';
     APIVersion = 'v1.0';
     ApplicationArea = All;
-    Caption = 'DrugAPI';
+    Caption = 'drug';
     DelayedInsert = true;
-    EntityName = 'Drug';
-    EntitySetName = 'Drugs';
+    EntityName = 'drug';
+    EntitySetName = 'drugs';
     PageType = API;
     SourceTable = "Drug Header";
+    
 
     layout
     {
@@ -17,15 +18,15 @@ page 50113 "Drug API"
         {
             repeater(General)
             {
-                field(ID; Rec."No.")
+                field(id; Rec.SystemId)
                 {
                     Caption = 'No.';
                 }
-                field(DrugName; Rec."Drug Name")
+                field(drugName; Rec."Drug Name")
                 {
                     Caption = 'Drug Name';
                 }
-                field(UnitOfMeasure; Rec."Unit of Measure")
+                field(unitOfMeasure; Rec."Unit of Measure")
                 {
                     Caption = 'Unit of Measure';
                 }
