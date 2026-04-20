@@ -24,7 +24,7 @@ codeunit 50105 "Inventory Posting Subscribers"
             repeat
                 if Line.Quantity > 100 then
                     Error('Quantity of %1 of line %2  item %3 %4 exceeds recommended purchase', Line."Document No.", Line."Line No.", Line."Item No.", Line."Item Description");
-               
+
             until Line.next() = 0;
     end;
 
