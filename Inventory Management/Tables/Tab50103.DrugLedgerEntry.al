@@ -110,6 +110,7 @@ table 50103 "Drug Ledger Entry"
     begin
         "Posted By" := UserId;
         "Posting Date" := CurrentDateTime;
+        Status := Rec.Status::Posted;
     end;
 
     trigger OnModify()
