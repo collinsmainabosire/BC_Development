@@ -7,7 +7,7 @@ codeunit 50108 "Inventory Query Service"
         InvQuery.Open();
 
         while InvQuery.Read() do begin
-            Message('%1 - %2 - %3', InvQuery.DrugNo, InvQuery.DrugName, InvQuery.Quantity);
+            Message('%1  - %3', InvQuery.DrugNo, InvQuery.Quantity);
         end;
 
         InvQuery.Close();

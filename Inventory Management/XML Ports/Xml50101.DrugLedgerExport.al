@@ -13,9 +13,6 @@ xmlport 50101 "Drug Ledger Export"
                 fieldelement(DrugNo; DrugLedgerEntry."Drug No.")
                 {
                 }
-                fieldelement(DrugName; DrugLedgerEntry."Drug Name")
-                {
-                }
                 fieldelement(DocumentNo; DrugLedgerEntry."Document No.")
                 {
                 }

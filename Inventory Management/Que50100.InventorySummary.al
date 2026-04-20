@@ -11,9 +11,6 @@ query 50100 "Inventory Summary"
             column(DrugNo; "Drug No.")
             {
             }
-            column(DrugName; "Drug Name")
-            {
-            }
             column(Quantity; Quantity)
             {
                 Method = Sum;

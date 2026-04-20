@@ -1,7 +1,7 @@
 page 50114 "Drug Ledger API"
 {
-    APIGroup = 'phamarcy';
-    APIPublisher = 'bcdev';
+    APIGroup = 'Phamarcy';
+    APIPublisher = 'BCDEV';
     APIVersion = 'v1.0';
     ApplicationArea = All;
     Caption = 'drugLedgerAPI';
@@ -24,10 +24,6 @@ page 50114 "Drug Ledger API"
                 field(drugNo; Rec."Drug No.")
                 {
                     Caption = 'Drug No.';
-                }
-                field(drugName; Rec."Drug Name")
-                {
-                    Caption = 'Drug Name';
                 }
                 field(quantity; Rec.Quantity)
                 {

@@ -30,10 +30,6 @@ page 50104 "Drug Ledger Entry List"
                 {
                     ToolTip = 'Specifies the value of the Drug No. field.', Comment = '%';
                 }
-                field("Drug Name"; Rec."Drug Name")
-                {
-                    ToolTip = 'Specifies the value of the Drug Name field.', Comment = '%';
-                }
                 field("Date Created"; Rec."Date Created")
                 {
                     ToolTip = 'Specifies the value of the Date Created field.', Comment = '%';
