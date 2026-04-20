@@ -60,7 +60,7 @@ codeunit 50105 "Inventory Posting Subscribers"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Post Purchase", 'OnBeforePost', '', false, false)]
     local procedure RestrictPostingTime(var Header: Record "Purchase Requisition"; var IsHandled: Boolean)
     begin
-        if Time > 180000T then
+        if Time > 230000T then
             Error('Posting not allowed after 6 PM');
     end;
 }

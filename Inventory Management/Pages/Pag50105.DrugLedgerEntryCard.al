@@ -45,7 +45,7 @@ page 50105 "Drug Ledger Entry Card"
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.', Comment = '%';
-                    Editable = false;
+                    //Editable = false;
                 }
                 field("Requsition Type"; Rec."Requsition Type")
                 {
