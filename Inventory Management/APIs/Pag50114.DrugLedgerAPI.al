@@ -1,7 +1,7 @@
 page 50114 "Drug Ledger API"
 {
-    APIGroup = 'Phamarcy';
-    APIPublisher = 'BCDEV';
+    APIGroup = 'pharmacy';
+    APIPublisher = 'bcdev';
     APIVersion = 'v1.0';
     ApplicationArea = All;
     Caption = 'drugLedgerAPI';
@@ -10,13 +10,17 @@ page 50114 "Drug Ledger API"
     EntitySetName = 'drugLedgers';
     PageType = API;
     SourceTable = "Drug Ledger Entry";
-
+    ODataKeyFields = SystemId;
     layout
     {
         area(Content)
         {
             repeater(General)
             {
+                field(id; Rec.SystemId)
+                {
+                    Caption = 'System Id';
+                }
                 field(entryNo; Rec."Entry No.")
                 {
                     Caption = 'Entry No.';
@@ -24,6 +28,10 @@ page 50114 "Drug Ledger API"
                 field(drugNo; Rec."Drug No.")
                 {
                     Caption = 'Drug No.';
+                }
+                field(drugName; Rec."Drug Name")
+                {
+                    Caption = 'Drug Name';
                 }
                 field(quantity; Rec.Quantity)
                 {
@@ -48,8 +56,9 @@ page 50114 "Drug Ledger API"
             }
         }
     }
-    trigger OnOpenPage()
+
+    trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        Rec.SetRange(Status, Rec.Status::Posted);
+        Error('You cannot insert ledger entries manually. Use posting.');
     end;
 }

@@ -15,6 +15,10 @@ table 50103 "Drug Ledger Entry"
         {
             Caption = 'Drug No.';
         }
+        field(19; "Drug Name"; Text[100])
+        {
+            Caption = 'Drug Name';
+        }
         field(4; "Date Created"; Date)
         {
             Caption = 'Date Created';

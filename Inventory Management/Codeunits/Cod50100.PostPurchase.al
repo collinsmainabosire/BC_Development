@@ -92,6 +92,7 @@ codeunit 50100 "Post Purchase" implements "InventoryPostingInterface"
                 TempDrugLedger.Status := PurchaseRequisitionHeader.Status;
                 TempDrugLedger."Requsition Type" := PurchaseRequisitionHeader."Requisition Type";
                 TempDrugLedger."Drug No." := Line."Item No.";
+                TempDrugLedger."Drug Name" := Line."Item Description";
                 TempDrugLedger.Type := Line."Item Type";
                 TempDrugLedger.Quantity := Abs(Line.Quantity);
                 TempDrugLedger."Unit of Measure" := Line."Unit of Measure";

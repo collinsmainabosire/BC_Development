@@ -101,6 +101,7 @@ codeunit 50101 "Store Requisition Posting" implements "InventoryPostingInterface
                 TempDrugLedger.Init();
                 TempDrugLedger."Entry No." := EntryNo;
                 TempDrugLedger."Drug No." := Line."Item No.";
+                TempDrugLedger."Drug Name" := Line."Item Description";
                 TempDrugLedger.Quantity := -Abs(Line.Quantity);
                 TempDrugLedger."Req No." := Line."Document No.";
                 TempDrugLedger."Requsition Type" := Header."Requisition Type";
