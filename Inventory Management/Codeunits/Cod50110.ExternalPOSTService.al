@@ -1,5 +1,10 @@
 codeunit 50110 "External POST Service"
 {
+    trigger OnRun()
+    begin
+        SendData();
+    end;
+
     procedure SendData()
     var
         Client: HttpClient;
@@ -57,7 +62,6 @@ codeunit 50110 "External POST Service"
         Buffer.Body := Body;
         Buffer.UserId := UserId;
         Buffer.Insert();
-
         Message('Data stored successfully');
     end;
 
