@@ -2,6 +2,7 @@ codeunit 50110 "External POST Service"
 {
     trigger OnRun()
     begin
+        Message('Codeunit is running');
         SendData();
     end;
 
@@ -29,17 +30,21 @@ codeunit 50110 "External POST Service"
 
         // Convert JSON to text
         JsonObj.WriteTo(JsonText);
-        Content.WriteFrom(JsonText);
+        if not ResultJson.ReadFrom(ResponseText) then
+            Error('Invalid JSON received from API');
 
         // Set header
         Content.GetHeaders(Headers);
+        Headers.Clear();
         Headers.Add('Content-Type', 'application/json');
 
         // Send POST request
-        Client.Post('https://jsonplaceholder.typicode.com/posts', Content, Response);
-
-        if not Response.IsSuccessStatusCode() then
-            Error('POST failed');
+        if not Client.Post('https://jsonplaceholder.typicode.com/posts', Content, Response) then
+            Error('HTTP call failed - no response from server');
+        if not Response.IsSuccessStatusCode() then begin
+            Response.Content().ReadAs(ResponseText);
+            Error('API Error %1 \Reason: %2', Response.HttpStatusCode(), ResponseText);
+        end;
         //Read response
         Response.Content().ReadAs(ResponseText);
         Message('Response: %1', ResponseText);
@@ -47,22 +52,36 @@ codeunit 50110 "External POST Service"
         //Convert JSON → AL
         ResultJson.ReadFrom(ResponseText);
         ResultJson.Get('id', Token);
-        Id := Token.AsValue().AsInteger();
-        ResultJson.Get('title', Token);
-        Title := Token.AsValue().AsText();
-        ResultJson.Get('body', Token);
-        Body := Token.AsValue().AsText();
-        ResultJson.Get('userId', Token);
-        UserId := Token.AsValue().AsInteger();
-
+        if ResultJson.Get('id', Token) then
+            Id := Token.AsValue().AsInteger()
+        else
+            Error('Missing field: id');
+        if ResultJson.Get('title', Token) then
+            Title := Token.AsValue().AsText()
+        else
+            Error('Missing field: Title');
+        if ResultJson.Get('body', Token) then
+            Body := Token.AsValue().AsText()
+        else
+            Error('Missing field: Body');
+        if ResultJson.Get('userId', Token) then
+            UserId := Token.AsValue().AsInteger()
+        else
+            Error('Missing Username field');
         //Store in BC
-        Buffer.Init();
-        Buffer.Id := Id;
-        Buffer.Title := Title;
-        Buffer.Body := Body;
-        Buffer.UserId := UserId;
-        Buffer.Insert();
-        Message('Data stored successfully');
+        if Buffer.Get(Id) then begin
+            Buffer.Title := Title;
+            Buffer.Body := Body;
+            Buffer.UserId := UserId;
+            Buffer.Modify();
+        end else begin
+            Buffer.Init();
+            Buffer.Id := Id;
+            Buffer.Title := Title;
+            Buffer.Body := Body;
+            Buffer.UserId := UserId;
+            Buffer.Insert(true);
+        end;
     end;
 
 }
