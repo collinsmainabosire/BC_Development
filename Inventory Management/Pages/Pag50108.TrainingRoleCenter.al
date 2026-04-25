@@ -59,6 +59,13 @@ page 50108 "Training Role Center"
                     Image = List;
                     RunObject = page "Drug Ledger Entry List";
                 }
+                action(APIs)
+                {
+                    Caption = 'APis';
+                    ApplicationArea = All;
+                    Image = List;
+                    RunObject = page "External Post Buffer List";
+                }
             }
             group(Setups)
             {
