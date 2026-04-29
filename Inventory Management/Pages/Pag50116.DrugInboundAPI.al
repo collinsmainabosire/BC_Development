@@ -1,6 +1,6 @@
 page 50116 "Drug Inbound API"
 {
-    APIGroup = 'phamarcy';
+    APIGroup = 'pharmacy';
     APIPublisher = 'bddev';
     APIVersion = 'v1.0';
     ApplicationArea = All;
@@ -10,7 +10,7 @@ page 50116 "Drug Inbound API"
     EntitySetName = 'drugs';
     PageType = API;
     SourceTable = "Drug Header";
-    
+
     layout
     {
         area(Content)

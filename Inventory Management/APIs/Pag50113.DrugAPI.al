@@ -10,7 +10,7 @@ page 50113 "Drug API"
     EntitySetName = 'drugs';
     PageType = API;
     SourceTable = "Drug Header";
-    
+
 
     layout
     {
