@@ -36,11 +36,12 @@ page 50113 Drug
     }
     var
         DrugMgt: Codeunit "Drug Management";
+        DrugNo: Code[20];
 
     trigger OnInsertRecord(BelowxRec: Boolean): Boolean
     begin
-        DrugMgt.CreateDrug(Rec."No.", Rec."Drug Name", Rec."Unit of Measure", Rec.Type);
-
+        DrugMgt.CreateDrug(Rec."Drug Name", Rec."Unit of Measure", Rec.Type);
+        Rec."No." := DrugNo;
         exit(false);
     end;
 }

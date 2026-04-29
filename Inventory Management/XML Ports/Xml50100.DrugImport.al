@@ -25,7 +25,7 @@ xmlport 50100 "Drug Import"
                     Drug: Record "Drug Header";
                     DrugMgt: Codeunit "Drug Management";
                 begin
-                    DrugMgt.CreateDrug(Drug."No.", Drug."Drug Name", Drug."Unit of Measure", Drug.Type);
+                    DrugMgt.CreateDrug(Drug."Drug Name", Drug."Unit of Measure", Drug.Type);
                     CurrXMLport.Skip();
                 end;
             }
