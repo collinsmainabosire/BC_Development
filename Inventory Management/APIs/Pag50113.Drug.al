@@ -1,7 +1,9 @@
-page 50113 "Drug API"
+namespace ERP.ERP;
+
+page 50113 Drug
 {
-    APIGroup = 'phamarcy';
-    APIPublisher = 'bcdev';
+    APIGroup = 'pharmacy';
+    APIPublisher = 'training';
     APIVersion = 'v1.0';
     ApplicationArea = All;
     Caption = 'drug';
@@ -11,14 +13,13 @@ page 50113 "Drug API"
     PageType = API;
     SourceTable = "Drug Header";
 
-
     layout
     {
         area(Content)
         {
             repeater(General)
             {
-                field(id; Rec.SystemId)
+                field(no; Rec."No.")
                 {
                     Caption = 'No.';
                 }

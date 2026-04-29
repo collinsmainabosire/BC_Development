@@ -79,6 +79,10 @@ table 50102 "Drug Header"
         "Date Created" := WorkDate;
         "Created By" := UserId;
 
+        if "No." = '' then
+            Error('No. must have a value.');
+        if "Drug Name" = '' then
+            Error('Drug Name must have a value.');
     end;
 
     /// <summary>
