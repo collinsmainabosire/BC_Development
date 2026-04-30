@@ -7,9 +7,12 @@ codeunit 50107 "Drug Management"
     /// <param name="Description">Text[100].</param>
     /// <param name="UnitOfMeasure">Code[20].</param>
     /// <param name="Type">Code[20].</param>
-    procedure CreateDrug(Description: Text[100]; UnitOfMeasure: Code[20]; Type: Code[20])
+    /// <returns>Return variable ResponseText of type Text.</returns>
+    procedure CreateDrug(Description: Text[100]; UnitOfMeasure: Code[20]; Type: Code[20]) ResponseText: Text
     var
         Drug: Record "Drug Header";
+        ResponseBuilder: Codeunit "API Response Builder";
+        NewNo: Code[20];
     begin
 
         // ASSIGN FIELDS
@@ -24,6 +27,7 @@ codeunit 50107 "Drug Management"
             Error('Unit of Measure must have a value.');
         // INSERT RECORD
         Drug.Insert(true);
+        exit(ResponseBuilder.BuildSuccess(NewNo, Description, UnitOfMeasure, Type));
     end;
 
 }
