@@ -1,5 +1,10 @@
 codeunit 50107 "Drug Management"
 {
+    // INTEGRATION EVENT (PUBLISHER)
+    [IntegrationEvent(false, false)]
+    procedure OnAfterDrugCreated(No: Code[20]; DrugName: Text)
+    begin
+    end;
     /// <summary>
     /// CreateDrug.
     /// </summary>
@@ -28,6 +33,9 @@ codeunit 50107 "Drug Management"
         // INSERT RECORD
         Drug.Insert(true);
         exit(ResponseBuilder.BuildSuccess(NewNo, Description, UnitOfMeasure, Type));
+
+        // CALL EVENT AFTER INSERT
+        OnAfterDrugCreated(Drug."No.", Drug."Drug Name");
     end;
 
 }
