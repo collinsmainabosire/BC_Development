@@ -68,6 +68,19 @@ page 50102 "Store Requisition Card"
                     end;
                 end;
             }
+            action(SendApprovalRequest)
+            {
+                Caption = 'Send Approval Request';
+                Image = SendApprovalRequest;
+                ApplicationArea = All;
+
+                trigger OnAction()
+                var
+                    StudentAppApprovalMgt: Codeunit "Student App Approval Mgt";
+                begin
+                    StudentAppApprovalMgt.SendStudentApplicationForApproval(Rec);
+                end;
+            }
         }
     }
 }
