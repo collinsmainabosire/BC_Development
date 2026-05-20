@@ -13,6 +13,7 @@ codeunit 50121 "Student Approval Mgmt"
         CheckStudentApplicationApprovalWorkflowEnabled(StudentApplication);
 
         OnSendStudentApplicationForApproval(StudentApplication);
+        OnCancelStudentApplicationForApproval(StudentApplication);
     end;
 
     local procedure CheckStudentApplicationApprovalWorkflowEnabled(var StudentApplication: Record "Student Application")
@@ -42,7 +43,14 @@ codeunit 50121 "Student Approval Mgmt"
     procedure OnSendStudentApplicationForApproval(var StudentApplication: Record "Student Application")
     begin
     end;
-
+  /// <summary>
+  /// OnCancelStudentApplicationForApproval.
+  /// </summary>
+  /// <param name="StudentApplication">VAR Record "Student Application".</param>
+  [IntegrationEvent(false, false)]
+    procedure OnCancelStudentApplicationForApproval(var StudentApplication: Record "Student Application")
+    begin
+    end;
     /// <summary>
     /// OnCancelStudentApplicationApprovalRequest.
     /// </summary>
