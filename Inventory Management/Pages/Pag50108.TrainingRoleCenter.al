@@ -66,6 +66,13 @@ page 50108 "Training Role Center"
                     Image = List;
                     RunObject = page "External Post Buffer List";
                 }
+                action(Student)
+                {
+                    Caption = 'Student Applications';
+                    ApplicationArea = All;
+                    Image = List;
+                    RunObject = page "Student Application List";
+                }
             }
             group(Setups)
             {
