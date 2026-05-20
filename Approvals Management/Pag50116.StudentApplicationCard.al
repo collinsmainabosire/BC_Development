@@ -42,4 +42,24 @@ page 50116 "Student Application Card"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action(SendApprovalRequest)
+            {
+                ApplicationArea = All;
+                Caption = 'Send Approval Request';
+                Image = SendApprovalRequest;
+
+                trigger OnAction()
+                var
+                // StudentApprovalMgmt: Codeunit "Student Approval Mgmt";
+                begin
+                    //  StudentApprovalMgmt.SendApprovalRequest(Rec);
+                end;
+            }
+
+        }
+    }
 }
