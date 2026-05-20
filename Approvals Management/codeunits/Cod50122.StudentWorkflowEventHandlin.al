@@ -4,6 +4,10 @@ using System.Automation;
 
 codeunit 50122 "Student Workflow Event Handlin"
 {
+    /// <summary>
+    /// RunWorkflowOnSendStudentApplicationApprovalCode.
+    /// </summary>
+    /// <returns>Return value of type Code[128].</returns>
     procedure RunWorkflowOnSendStudentApplicationApprovalCode(): Code[128]
     begin
         exit(UpperCase('RunWorkflowOnSendStudentApplicationApproval'));
