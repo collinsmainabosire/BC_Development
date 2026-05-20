@@ -51,4 +51,44 @@ codeunit 50121 "Student Approval Mgmt"
     procedure OnCancelStudentApplicationApprovalRequest(var StudentApplication: Record "Student Application")
     begin
     end;
+
+    /// <summary>
+    /// SetStatusToPendingApproval.
+    /// </summary>
+    /// <param name="StudentApplication">VAR Record "Student Application".</param>
+    procedure SetStatusToPendingApproval(var StudentApplication: Record "Student Application")
+    begin
+        StudentApplication.Status := StudentApplication.Status::"Pending Approval";
+        StudentApplication.Modify(true);
+    end;
+
+    /// <summary>
+    /// SetStatusToApproved.
+    /// </summary>
+    /// <param name="StudentApplication">VAR Record "Student Application".</param>
+    procedure SetStatusToApproved(var StudentApplication: Record "Student Application")
+    begin
+        StudentApplication.Status := StudentApplication.Status::Approved;
+        StudentApplication.Modify(true);
+    end;
+
+    /// <summary>
+    /// SetStatusToRejected.
+    /// </summary>
+    /// <param name="StudentApplication">VAR Record "Student Application".</param>
+    procedure SetStatusToRejected(var StudentApplication: Record "Student Application")
+    begin
+        StudentApplication.Status := StudentApplication.Status::Rejected;
+        StudentApplication.Modify(true);
+    end;
+
+    /// <summary>
+    /// ReOpenDocument.
+    /// </summary>
+    /// <param name="StudentApplication">VAR Record "Student Application".</param>
+    procedure ReOpenDocument(var StudentApplication: Record "Student Application")
+    begin
+        StudentApplication.Status := StudentApplication.Status::Open;
+        StudentApplication.Modify(true);
+    end;
 }
