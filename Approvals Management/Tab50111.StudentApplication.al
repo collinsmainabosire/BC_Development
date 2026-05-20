@@ -63,6 +63,12 @@ table 50111 "Student Application"
         "Created Date" := Today;
     end;
 
+    trigger OnModify()
+    begin
+        if Status = Status::"Pending Approval" then
+            TestNoOpenApprovalEntries();
+    end;
+
     procedure TestNoOpenApprovalEntries()
     var
         ApprovalsMgmt: Codeunit "Approvals Mgmt.";
