@@ -59,7 +59,19 @@ page 50116 "Student Application Card"
                     //  StudentApprovalMgmt.SendApprovalRequest(Rec);
                 end;
             }
+            action(CancelApprovalRequest)
+            {
+                ApplicationArea = All;
+                Caption = 'Cancel Approval Request';
+                Image = CancelApprovalRequest;
 
+                trigger OnAction()
+                var
+                   // StudentApprovalMgmt: Codeunit "Student Approval Mgmt";
+                begin
+                   // StudentApprovalMgmt.CancelApprovalRequest(Rec);
+                end;
+            }
         }
     }
 }
