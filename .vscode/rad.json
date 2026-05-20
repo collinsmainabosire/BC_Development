@@ -1,1 +1,1 @@
-﻿{"Added":[],"Modified":[],"Removed":[]}
+﻿{"Added":[],"Modified":[{"Id":50102,"Kind":12,"Name":"Store Requisition Card","Namespace":""}],"Removed":[{"Id":50118,"Kind":11,"Name":"Inventory Approval Service","Namespace":"ERP.ERP"},{"Id":50117,"Kind":11,"Name":"Inventory Workflow Events","Namespace":"ERP.ERP"},{"Id":50116,"Kind":11,"Name":"Inventory App Approval Mgt","Namespace":"ERP.ERP"},{"Id":50119,"Kind":11,"Name":"Test Approval","Namespace":"ERP.ERP"}]}

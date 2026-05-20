@@ -75,11 +75,12 @@ page 50102 "Store Requisition Card"
                 ApplicationArea = All;
 
                 trigger OnAction()
-                var
-                    StudentAppApprovalMgt: Codeunit "Student App Approval Mgt";
-                begin
-                    StudentAppApprovalMgt.SendStudentApplicationForApproval(Rec);
-                end;
+
+              var
+                InventoryApprovalMgmt: Codeunit "Inventory Approval Mgmt";
+            begin
+                //InventoryApprovalMgmt.SendExpenseForApproval(Rec);
+            end;
             }
         }
     }

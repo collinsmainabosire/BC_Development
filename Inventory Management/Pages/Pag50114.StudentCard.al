@@ -6,7 +6,7 @@ page 50114 "Student Card"
     Caption = 'Student Card';
     PageType = Card;
     SourceTable = Student;
-    
+
     layout
     {
         area(Content)
@@ -14,7 +14,7 @@ page 50114 "Student Card"
             group(General)
             {
                 Caption = 'General';
-                
+
                 field("Admission No."; Rec."Admission No.")
                 {
                     ToolTip = 'Specifies the value of the Admission No. field.', Comment = '%';
