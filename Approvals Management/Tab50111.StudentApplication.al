@@ -62,4 +62,12 @@ table 50111 "Student Application"
         "Created By" := UserId;
         "Created Date" := Today;
     end;
+
+    procedure TestNoOpenApprovalEntries()
+    var
+        ApprovalsMgmt: Codeunit "Approvals Mgmt.";
+    begin
+        if ApprovalsMgmt.HasOpenApprovalEntries(RecordId) then
+            Error('This document has open approval entries.');
+    end;
 }
